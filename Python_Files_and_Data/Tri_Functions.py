@@ -109,12 +109,12 @@ def Process_Features(l, n):
         for col in cols:
             RawChunk[col]=RawChunk[col].astype(float)
         #extract features
-        row.extend(getRMS(RawChunk))
+        #row.extend(getRMS(RawChunk))
         row.extend(getMean(RawChunk))
-        row.extend(getStanDev(RawChunk))
-        row.extend(getMedian(RawChunk))
+        #row.extend(getStanDev(RawChunk))
+        #row.extend(getMedian(RawChunk))
         #row.extend(getMode(RawChunk))
-        row.extend(getAvgPeakDistAmp(RawChunk))
+        #row.extend(getAvgPeakDistAmp(RawChunk))
         yield row
 
 def getRMS(df):

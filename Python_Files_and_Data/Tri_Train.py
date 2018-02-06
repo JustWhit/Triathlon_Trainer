@@ -17,7 +17,7 @@ print('processing file')
 
 P_list = list(Process_Features(A_list, 90))
 
-path = './training_data'
+path = './features_Median'
 filename=classification + '.csv'
 filepath=os.path.join(path, filename)
 
