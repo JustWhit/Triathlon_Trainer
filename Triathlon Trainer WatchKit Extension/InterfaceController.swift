@@ -86,7 +86,7 @@ class InterfaceController: WKInterfaceController {
                                repeats: true, block: { (timer) in
                                 // Get the accelerometer data.
                                 //if let adata = self.motion.accelerometerData {
-                                   // let x = String(format: "%.4f", adata.acceleration.x)
+                                   //let x = String(format: "%.4f", adata.acceleration.x)
                                   //  let y = String(format: "%.4f", adata.acceleration.y)
                                   //  let z = String(format: "%.4f", adata.acceleration.z)
                                     

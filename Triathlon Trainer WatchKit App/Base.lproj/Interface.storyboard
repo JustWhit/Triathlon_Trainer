@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13196" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -30,30 +30,14 @@
                         <label alignment="left" text="X:" id="Uuz-gV-70x"/>
                         <label alignment="left" text="Y:" id="qMD-zG-3cq"/>
                         <label alignment="left" text="Z:" id="4ud-UL-KVW"/>
-                        <label alignment="left" text="Magnetometer" id="jpq-za-4oE"/>
-                        <label alignment="left" text="X:" id="hcV-oH-v77"/>
-                        <label alignment="left" text="Y:" id="2Cp-eH-xC4"/>
-                        <label alignment="left" text="Z:" id="rQr-E2-92H"/>
-                        <label alignment="left" text="Adjusted Data" id="aob-dh-5r0"/>
-                        <label alignment="left" text="X:" id="P6q-Da-BAS"/>
-                        <label alignment="left" text="Y:" id="oow-ym-lcz"/>
-                        <label alignment="left" text="Z:" id="LBO-cR-U4T"/>
-                        <label alignment="left" text="H:" id="8ik-5W-OH6"/>
                     </items>
                     <connections>
-                        <outlet property="HMot" destination="8ik-5W-OH6" id="iai-28-y3B"/>
                         <outlet property="Tim" destination="Oe1-NR-XEt" id="bhj-gR-TiY"/>
                         <outlet property="XAxis" destination="wN9-WE-OP6" id="LbS-10-0BX"/>
-                        <outlet property="XMagAxis" destination="hcV-oH-v77" id="nlw-Qg-dRl"/>
-                        <outlet property="XMotAxis" destination="P6q-Da-BAS" id="CaU-CN-Glx"/>
                         <outlet property="XRotAxis" destination="Uuz-gV-70x" id="37F-hI-A8d"/>
                         <outlet property="YAxis" destination="CSl-nW-iWD" id="u2Y-cs-rGa"/>
-                        <outlet property="YMagAxis" destination="2Cp-eH-xC4" id="R0c-6d-M7y"/>
-                        <outlet property="YMotAxis" destination="oow-ym-lcz" id="DSG-Gg-9aQ"/>
                         <outlet property="YRotAxis" destination="qMD-zG-3cq" id="8NL-oF-K0n"/>
                         <outlet property="ZAxis" destination="wOy-1M-xN8" id="MRo-Ld-ucK"/>
-                        <outlet property="ZMagAxis" destination="rQr-E2-92H" id="o6d-sE-E2q"/>
-                        <outlet property="ZMotAxis" destination="LBO-cR-U4T" id="Rez-aE-seQ"/>
                         <outlet property="ZRotAxis" destination="4ud-UL-KVW" id="Xha-Wj-oJM"/>
                         <outlet property="theButton" destination="Oc1-5h-C3b" id="27i-rL-ZNA"/>
                     </connections>

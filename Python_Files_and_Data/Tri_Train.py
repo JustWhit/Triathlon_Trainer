@@ -17,8 +17,8 @@ print('processing file')
 
 P_list = list(Process_Features(A_list, 90))
 
-path = './features_Median'
-filename=classification + '.csv'
+path = './Features'
+filename=classification + '_kur_skew.csv'
 filepath=os.path.join(path, filename)
 
 if os.path.exists(filepath):

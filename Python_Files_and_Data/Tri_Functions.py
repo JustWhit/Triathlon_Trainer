@@ -9,6 +9,7 @@ import codecs
 import matplotlib.pyplot as plt
 import sys
 import re
+from scipy.stats import skew, kurtosis
 
 p=re.compile(r'\d+\.\d+')
 
@@ -109,12 +110,14 @@ def Process_Features(l, n):
         for col in cols:
             RawChunk[col]=RawChunk[col].astype(float)
         #extract features
-        #row.extend(getRMS(RawChunk))
+        row.extend(getRMS(RawChunk))
         row.extend(getMean(RawChunk))
-        #row.extend(getStanDev(RawChunk))
-        #row.extend(getMedian(RawChunk))
+        row.extend(getStanDev(RawChunk))
+        row.extend(getMedian(RawChunk))
         #row.extend(getMode(RawChunk))
-        #row.extend(getAvgPeakDistAmp(RawChunk))
+        row.extend(getAvgPeakDistAmp(RawChunk))
+        row.extend(getSkewness(RawChunk))
+        row.extend(getKurtosis(RawChunk))
         yield row
 
 def getRMS(df):
@@ -154,6 +157,25 @@ def getMode(df):
         row.append(mode)
     return row
 
+def getSkewness(df):
+    row=[]
+    for column in df:
+        sk=skew(df[column])
+        row.append(sk)
+    return row
+
+def getKurtosis(df):
+    row=[]
+    for column in df:
+        kt=kurtosis(df[column])
+        row.append(kt)
+    return row
+
+def getMagnitude(df):
+    row=[]
+    for column in df:
+        mag=(sum(i**2 for i in column))**(0.5)
+
 def getAvgPeakDistAmp(df):
     row=[]
     for column in df:
@@ -183,6 +205,12 @@ def getAvgPeakDistAmp(df):
         row.extend([avgDist,stdDist,avgAmp,stdAmp])
         
     return row
+
+
+
+
+
+    
 
 def getTrainingData(path):
     T_list=[]
