@@ -20,11 +20,12 @@ with open(Activity_file, 'r') as infile:
 A_list = sorted(A_list, key=lambda x: x[0])
 
 A_list = adjustTime(A_list)
+S_list = smoothData(A_list)
 
 print('processing file')
 filename='processed_'.rstrip() + Activity_file
 
-P_list = list(Process_Features(A_list, 150))
+P_list = list(Process_Features(S_list, 90))
 ##with open(filename, 'r') as infile:
 ##    read=csv.reader(infile)
 ##    P_list=list(read)
@@ -72,6 +73,6 @@ R_list=list(zip(Pc_list,stampa, stampb))
 E_list = Process_Activity(R_list)
 print('Completed')
 
-plotResults(E_list, A_list, gr_list,Score, A_name)
+plotResults(E_list, S_list, gr_list,Score, A_name)
 
 ##os.system('say "All Done"')

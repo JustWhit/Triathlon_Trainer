@@ -10,8 +10,13 @@ import matplotlib.pyplot as plt
 import sys
 import re
 from scipy.stats import skew, kurtosis
+from scipy.signal import savgol_filter as savgol
 
 p=re.compile(r'\d+\.\d+')
+
+def smoothData(C):
+    smoothed = savgol(x=C,mode='constant',window_length=15,polyorder=1)
+    return smoothed
 
 def getGroundTruth(P_list, Activity_file):
     A_name=Activity_file.split('_')[0]
@@ -93,6 +98,7 @@ def plotResults(E_list, A_list,gr_list, Score, title):
 def Process_Features(l, n):
     Rheaders=['time','Ax','Ay','Az','Gx','Gy','Gz']
     # For item i in a range that is a length of l,
+    
     l_len=len(l)-n
     for i in range(0, (l_len),30):##range(0, len(l), n)
         progress= float(i)/l_len *100
