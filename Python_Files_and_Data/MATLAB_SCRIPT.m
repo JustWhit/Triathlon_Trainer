@@ -70,8 +70,8 @@ disp(order);
 
 
 %% savgol
-inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw';
-outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\training_data';
+inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw\';
+outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\training_data\';
 %check if folder exists
 if ~isdir(inFolder)
   errorMessage = sprintf('Error: The following folder does not exist:\n%s', inFolder);
@@ -86,14 +86,15 @@ end
 
 
 % Get a list of all files in the folder with the desired file name pattern.
-activities = ['bike','run','swim','transition'];
+activities = {'bike', 'run', 'swim', 'transition'};
 for x = 1: length(activities)
-    filePattern = fullfile(Folder, '*'+activities(x)+'.csv'); % Change to whatever pattern you need.
+    fileregex = strcat('*',activities(x),'.csv');
+    filePattern = fullfile(inFolder, fileregex); % Change to whatever pattern you need.
     theFiles = dir(filePattern);
     activityV = [];
     for k = 1 : length(theFiles)
-
-        f = readtable(theFiles(k));
+        thisfile=strcat(theFiles(k).folder,theFiles(k).name);
+        f = readtable();
         f1 = sortrows(f,1);
 
         
