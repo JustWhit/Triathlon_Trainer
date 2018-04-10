@@ -111,13 +111,13 @@ def Process_Features(l, n):
             RawChunk[col]=RawChunk[col].astype(float)
         #extract features
         row.extend(getRMS(RawChunk))
-        row.extend(getMean(RawChunk))
+        #row.extend(getMean(RawChunk))
         row.extend(getStanDev(RawChunk))
-        row.extend(getMedian(RawChunk))
+        #row.extend(getMedian(RawChunk))
         #row.extend(getMode(RawChunk))
         row.extend(getAvgPeakDistAmp(RawChunk))
-        row.extend(getSkewness(RawChunk))
-        row.extend(getKurtosis(RawChunk))
+        #row.extend(getSkewness(RawChunk))
+        #row.extend(getKurtosis(RawChunk))
         yield row
 
 def getRMS(df):
@@ -202,7 +202,7 @@ def getAvgPeakDistAmp(df):
             stdAmp=stat.stdev(Amp)
         else:
             stdAmp=-1
-        row.extend([avgDist,stdDist,avgAmp,stdAmp])
+        row.extend([stdDist,avgAmp,stdAmp])##avgDist  removed from result
         
     return row
 
@@ -246,7 +246,7 @@ def Process_Activity(R_list):
     first='NA'
     second='NA'
     third='NA'
-    activities=['run','bike']## add 'swim'
+    activities=['run','bike','swim']## add 'swim'
     RR_list=R_list[::-1]
     Ccounter=0 #current counter
     Tcounter=0 #transition counter
