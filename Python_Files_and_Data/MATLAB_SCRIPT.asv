@@ -27,3 +27,53 @@ end
 
 
 %% SVM
+Folder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\';
+%check if folder exists
+if ~isdir(Folder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', myFolder);
+  uiwait(warndlg(errorMessage));
+  return;
+end
+
+filename='Gt_versus_P_justin_combo_brb.csv';
+Vfile = strcat(Folder,filename);
+V=readtable(Vfile);
+
+order = {'transition','bike','run','swim'};
+grouphat = V{:,1};
+group = V{:,2};
+% grouphat={1,length(p)};
+% for item = 1: length(P)
+%     for x = 1:length(order)
+%        if p(item)==order(x)
+%            grouphat(item) = x;
+%        end
+%     end
+% end
+% group={1,length(Gt)};
+% for item = 1: length(Gt)
+%     for x = 1:length(order)
+%        if Gt(item)==order(x)
+%            group(item) = x;
+%        end
+%     end
+% end
+
+[C,order] = confusionmat(group,grouphat,'Order',{'transition','bike','run','swim'});
+
+%display_matrix(C,'title','Over sized Swim Tdata');
+%plotconfusion(group,grouphat,'Justin_brb');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
