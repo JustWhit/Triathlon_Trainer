@@ -15,8 +15,13 @@ from scipy.signal import savgol_filter as savgol
 p=re.compile(r'\d+\.\d+')
 
 def smoothData(C):
-    smoothed = savgol(x=C,mode='constant',window_length=15,polyorder=1)
-    return smoothed
+    Rheaders=['time','Ax','Ay','Az','Gx','Gy','Gz']
+    df = pd.DataFrame(C,columns=Rheaders)
+    for column in df.columns[1:]:
+        smoothed = savgol(x=df[column],mode='interp', window_length=15,polyorder=1)
+        df[column] = smoothed;
+    
+    return df.values.tolist()
 
 def getGroundTruth(P_list, Activity_file):
     A_name=Activity_file.split('_')[0]
