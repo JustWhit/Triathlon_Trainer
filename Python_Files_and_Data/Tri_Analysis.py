@@ -59,6 +59,14 @@ Score=model.score(P_list, G_list)
 
 print('Score: ', Score)
 
+##write the Predicted results and the GT to file
+V_list = list(zip(Pc_list, G_list))
+filename = "Gt_versus_P_" + Activity_file
+with open(filename, 'w')as outfile:
+    write=csv.writer(outfile)
+    for item in V_list:
+        write.writerow(item)
+
 R_list=list(zip(Pc_list,stampa, stampb))
 
 E_list = Process_Activity(R_list)
