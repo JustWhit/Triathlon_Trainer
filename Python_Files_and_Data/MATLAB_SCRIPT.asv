@@ -1,17 +1,26 @@
+
+%% SVM
 %Folder name
-Folder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\';
+inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw\';
+trainFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\training_data\';
 %check if folder exists
-if ~isdir(Folder)
-  errorMessage = sprintf('Error: The following folder does not exist:\n%s', myFolder);
+if ~isdir(inFolder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', inFolder);
+  uiwait(warndlg(errorMessage));
+  return;
+end
+if ~isdir(trainFolder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', outFolder);
   uiwait(warndlg(errorMessage));
   return;
 end
 
 
 % Get a list of all files in the folder with the desired file name pattern.
-activities = ["bike","run","swim","transition"];
+activities = {'bike', 'run', 'swim', 'transition'};
 for x = 1: length(activities)
-    filePattern = fullfile(myFolder, '*bike.csv'); % Change to whatever pattern you need.
+    fileregex = strcat(activities(x),'.csv');
+    filePattern = char(fullfile(inFolder, fileregex)); % Change to whatever pattern you need.
     theFiles = dir(filePattern);
     for k = 1 : length(theFiles)
       baseFileName = theFiles(k).name;
@@ -26,7 +35,7 @@ for x = 1: length(activities)
 end
 
 
-%% SVM
+%% confusion matrix
 Folder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\';
 %check if folder exists
 if ~isdir(Folder)
@@ -69,24 +78,32 @@ disp(order);
 
 
 
-%% savgol
-inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\';
+%% training data
+inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw\';
+outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\training_data\';
 %check if folder exists
 if ~isdir(inFolder)
-  errorMessage = sprintf('Error: The following folder does not exist:\n%s', myFolder);
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', inFolder);
+  uiwait(warndlg(errorMessage));
+  return;
+end
+if ~isdir(outFolder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', outFolder);
   uiwait(warndlg(errorMessage));
   return;
 end
 
 
 % Get a list of all files in the folder with the desired file name pattern.
-activities = ['bike','run','swim','transition'];
+activities = {'bike', 'run', 'swim', 'transition'};
 for x = 1: length(activities)
-    filePattern = fullfile(Folder, '*'+activities(x)+'.csv'); % Change to whatever pattern you need.
+    fileregex = strcat('*',activities(x),'.csv');
+    filePattern = char(fullfile(inFolder, fileregex)); % Change to whatever pattern you need.
     theFiles = dir(filePattern);
+    activityV = [];
     for k = 1 : length(theFiles)
-
-        f = readtable(theFiles(k));
+        thisfile=char(fullfile(theFiles(k).folder,theFiles(k).name));
+        f = readtable(thisfile);
         f1 = sortrows(f,1);
 
         
@@ -132,24 +149,41 @@ for x = 1: length(activities)
            currentA = magAccel(i:i+window );
            currentG = magGyro(i:i+window);
            thisTime = [time(i) time(i+window)];
-           [apks,alocs] = findpeaks(currentA, time,'MinPeakProminence',1);
-           [gpks,glocs] = findpeaks(currentG, time,'MinPeakProminence',1);
-           meanPDistA = mean(diff(alocs)); %mean of the Distance between peaks for Accel magnitude
-           stdPDistA = std(diff(alocs));% standard deviation of the Distance between peaks for Accel magnitude
-           meanPDistG = mean(diff(glocs)); % mean of the distance between peraks for Gyro magnitude
-           stdPDistG = std(diff(glocs)); % standard deviation for the distance between peaks for Gyro magnitude
-           stdPAmpA = std(currentA(locs)); %standard deviation of the amplitude of the peaks for Accel magnitude
-           meanPAmpA = mean(currentA(locs)); %mean of the amplitude of the peaks for Accel magnitude
-           stdPAmpG = std(currentG(locs)); % standard deviation of the amplitude of the peaks for Gyro magnitude
-           meanPAmpG = mean(currentG(locs));
-           rmsAmpA = rms(currentA); % RMS of the amplitude for Accel magnitude
+%            [apks,alocs] = findpeaks(currentA,'MinPeakProminence',1);
+           [gpks,glocs] = findpeaks(currentG,'MinPeakProminence',0.5);
+           if(isempty(glocs))
+                glocs = zeros(5,1);
+                gpks = zeros(5,1);
+
+           end
+           
+%           meanPDistA = mean(diff(alocs)); %mean of the Distance between peaks for Accel magnitude
+%           stdPDistA = std(diff(alocs));% standard deviation of the Distance between peaks for Accel magnitude
+            meanPDistG = mean(diff(glocs)); % mean of the distance between peraks for Gyro magnitude
+            stdPDistG = std(diff(glocs)); % standard deviation for the distance between peaks for Gyro magnitude
+           
+           
+
+%            stdPAmpA = std(apks); %standard deviation of the amplitude of the peaks for Accel magnitude
+%            meanPAmpA = mean(apks); %mean of the amplitude of the peaks for Accel magnitude
+           stdPAmpG = std(gpks); % standard deviation of the amplitude of the peaks for Gyro magnitude
+           meanPAmpG = mean(gpks);
+%            rmsAmpA = rms(currentA); % RMS of the amplitude for Accel magnitude
            rmsAmpG = rms(currentG); % RMS of the amplitude for Gyro magnitude
            
-           fv = [fv; meanPDistA stdPDistA meanPDistG stdPDistG stdPAmpA meanPAmpA stdPAmpG meanPAmpG rmsAmpA rmsAmpG];
+           fv = [fv; meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG];
         end
 %print to file
-        
-        
+        activityV = [activityV; fv];
         
     end
+    %set nan to 0
+    activityV(isnan(activityV))=0;
+    
+    afile = strcat(activities(x),'.csv');
+    outfile = char(strcat(outFolder,afile));
+    csvwrite(outfile,activityV);
+    figure; hold on;
+    plot(activityV);
+    title(activities(x));
 end
