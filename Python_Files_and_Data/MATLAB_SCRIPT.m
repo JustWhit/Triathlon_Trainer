@@ -78,7 +78,7 @@ disp(order);
 
 
 
-%% training data
+%% training data feature extraction
 inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw\';
 outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\training_data\';
 %check if folder exists
@@ -189,7 +189,7 @@ for x = 1: length(activities)
 end
 
 
-%% activityProcessing
+%% activity Feature extraction
 format long;
 inFile = 'justin_combo_brb.csv';
 inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw';
@@ -285,6 +285,59 @@ outfile = char(fullfile(outFolder,afile));
 
 dlmwrite(outfile,fv,'delimiter',',','precision',15);
 figure; hold on;
+
+
+%% predictions
+
+inFile = 'justin_combo_brb_features.csv';
+inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed';
+wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
+outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\SVM_pred';
+
+%check if folder exists
+if ~isdir(inFolder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', inFolder);
+  uiwait(warndlg(errorMessage));
+  return;
+end
+%check if folder exists
+if ~isdir(outFolder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', outFolder);
+  uiwait(warndlg(errorMessage));
+  return;
+end
+
+AFPattern = char(fullfile(inFolder, inFile)); % Change to whatever pattern you need.
+TLPattern = char(fullfile(wFolder, strcat('t_list_',inFile)));
+ActualPattern = char(fullfile(wFolder, strcat('Actual_',inFile)));
+GTPattern = char(fullfile(wFolder,strcat('Gt_',inFile)));
+
+AF = readtable(AFPattern);
+TL = readtable(TLPattern);
+Actual = readtable(ActualPattern);
+GT = readtable(GTPattern);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
