@@ -19,13 +19,13 @@ with open(Activity_file, 'r') as infile:
 
 #A_list = sorted(A_list, key=lambda x: x[0])
 
-A_list = adjustTime(A_list)
+#A_list = adjustTime(A_list)
 ##S_list = smoothData(A_list)
 ##
 ##print('processing file')
 ##filename='processed_'.rstrip() + Activity_file
 ##
-##P_list = list(Process_Features(S_list, 90))
+##f_list = list(Process_Features(S_list, 90))
 ##with open(filename, 'r') as infile:
 ##    read=csv.reader(infile)
 ##    P_list=list(read)
@@ -58,6 +58,12 @@ with open(filename, 'w')as outfile:
 
 path = './training_data'
 actual, t_list = getTrainingData(path)
+
+filename = "Actual_" + os.path.basename(Activity_file)
+with open(filename, 'w')as outfile:
+    write=csv.writer(outfile)
+    for item in actual:
+        write.writerow(item)
 print('\nnormalizing data')
 
 filename = "t_list" + os.path.basename(Activity_file)
@@ -79,22 +85,22 @@ Score = model.score(A_list, G_list);
 
 
 
-print('Score: ', Score)
+#print('Score: ', Score)
 
 ##write the Predicted results and the GT to file
-V_list = list(zip(P_list, G_list))
-filename = "Gt_versus_P_" + os.path.basename(Activity_file)
+##V_list = list(zip(P_list, G_list))
+filename = "Gt_" + os.path.basename(Activity_file)
 with open(filename, 'w')as outfile:
     write=csv.writer(outfile)
-    for item in V_list:
+    for item in G_list:
         write.writerow(item)
 
-R_list=list(zip(P_list,stampa, stampb))
+R_list=list(zip(P_list,stampa,stampb))
 
 E_list = Process_Activity(R_list)
 print('Completed')
 
-filename='raw/justin_combo_brb.csv'
+filename='raw/Matt_triathlon.csv'
 
 with open(filename, 'r') as infile:
     read = csv.reader(infile)

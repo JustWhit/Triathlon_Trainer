@@ -34,7 +34,7 @@ def getGroundTruth(P_list, Activity_file):
     G_list=[]
     for item in P_list:
 ##        x=[float(i) for i in p.findall(str(item))]
-        x=[item[0],item[1]]
+        x=[float(item[0]),float(item[1])]
         maybe='transition'
         for row in gr_list:
             if x[0] > float(row[1]) and x[1] < float(row[2]):
@@ -50,7 +50,6 @@ def adjustTime(A_list):
     timestamp=float(A_list[0][0])
     for row in A_list:
         row[0]=float(row[0])-timestamp
-        row[1]=float(row[1])-timestamp
     return A_list
 
 
