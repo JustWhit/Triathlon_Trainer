@@ -191,7 +191,7 @@ end
 
 %% activityProcessing
 format long;
-inFile = 'justin_combo_brb.csv';
+inFile = 'Matt_triathlon.csv';
 inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw';
 outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed';
 %check if folder exists
@@ -207,9 +207,7 @@ f = readtable(filePattern);
 f1 = sortrows(f,1);
 time = f1{:,1};
 start = time(1);
-for i=1:length(time)
-   time(i)=time(i)-start; 
-end
+for 
 
 %time = str2double(time);
 %tr=timeseries(,time)
