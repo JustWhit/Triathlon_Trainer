@@ -50,11 +50,11 @@ for row in A_list:
 stampa=[i[0] for i in s_list]
 stampb=[i[1] for i in s_list]
 
-filename = "A_list" + os.path.basename(Activity_file)
-with open(filename, 'w')as outfile:
-    write=csv.writer(outfile)
-    for item in A_list:
-        write.writerow(item)
+##filename = "A_list" + os.path.basename(Activity_file)
+##with open(filename, 'w')as outfile:
+##    write=csv.writer(outfile)
+##    for item in A_list:
+##        write.writerow(item)
 
 path = './training_data'
 actual, t_list = getTrainingData(path)
@@ -63,14 +63,15 @@ filename = "Actual_" + os.path.basename(Activity_file)
 with open(filename, 'w')as outfile:
     write=csv.writer(outfile)
     for item in actual:
-        write.writerow(item)
+        write.writerow([item])
+        
 print('\nnormalizing data')
 
-filename = "t_list" + os.path.basename(Activity_file)
-with open(filename, 'w')as outfile:
-    write=csv.writer(outfile)
-    for item in t_list:
-        write.writerow(item)
+##filename = "t_list" + os.path.basename(Activity_file)
+##with open(filename, 'w')as outfile:
+##    write=csv.writer(outfile)
+##    for item in t_list:
+##        write.writerow(item)
 
 
 scaler=preprocessing.StandardScaler().fit(t_list)
@@ -89,11 +90,11 @@ Score = model.score(A_list, G_list);
 
 ##write the Predicted results and the GT to file
 ##V_list = list(zip(P_list, G_list))
-filename = "Gt_" + os.path.basename(Activity_file)
-with open(filename, 'w')as outfile:
-    write=csv.writer(outfile)
-    for item in G_list:
-        write.writerow([item])
+##filename = "Gt_" + os.path.basename(Activity_file)
+##with open(filename, 'w')as outfile:
+##    write=csv.writer(outfile)
+##    for item in G_list:
+##        write.writerow([item])
 
 R_list=list(zip(P_list,stampa,stampb))
 
