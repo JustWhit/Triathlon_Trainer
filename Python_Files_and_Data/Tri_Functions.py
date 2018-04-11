@@ -24,7 +24,8 @@ def smoothData(C):
     return df.values.tolist()
 
 def getGroundTruth(P_list, Activity_file):
-    A_name=Activity_file.split('_')[0]
+    A_name=os.path.basename(Activity_file).split('_')[0]
+    print(A_name)
     filename=A_name.rstrip() + '_gr.csv'
     with open(filename, 'r') as infile:
         read=csv.reader(infile)
@@ -32,7 +33,8 @@ def getGroundTruth(P_list, Activity_file):
 
     G_list=[]
     for item in P_list:
-        x=[float(i) for i in p.findall(str(item))]
+##        x=[float(i) for i in p.findall(str(item))]
+        x=[item[0],item[1]]
         maybe='transition'
         for row in gr_list:
             if x[0] > float(row[1]) and x[1] < float(row[2]):
@@ -48,10 +50,11 @@ def adjustTime(A_list):
     timestamp=float(A_list[0][0])
     for row in A_list:
         row[0]=float(row[0])-timestamp
+        row[1]=float(row[1])-timestamp
     return A_list
 
 
-def plotResults(E_list, A_list,gr_list, Score, title):
+def plotResults(E_list, A_list,gr_list, title):
     #Activity=pd.DataFrame(A_list, columns=headers)
     for row in gr_list:
         print(row)
@@ -97,7 +100,7 @@ def plotResults(E_list, A_list,gr_list, Score, title):
     for i in gr_list:
         plt.axvline(float(i[1]), color='red', linestyle='dashed')
         plt.axvline(float(i[2]), color='red', linestyle='dashed')
-    plt.text(xmax,ymax,'SVM Acc: '+str(Score)+'\nDet Acc:' +str(avg), va='top', ha='right', fontsize=10)
+    plt.text(xmax,ymax, 'Det Acc:' +str(avg), va='top', ha='right', fontsize=10)
     plt.show()
 
 def Process_Features(l, n):
@@ -236,8 +239,8 @@ def getTrainingData(path):
                 count=len(T_list)-len(Actual)
                 for i in range(count):
                     Actual.append(classification)
-    for row in T_list:
-        del row[0]
+##    for row in T_list:
+##        del row[0]
     
     with open('./test.csv', 'w') as testfile:
         test_list=list(zip(Actual,T_list))
