@@ -93,7 +93,7 @@ filename = "Gt_" + os.path.basename(Activity_file)
 with open(filename, 'w')as outfile:
     write=csv.writer(outfile)
     for item in G_list:
-        write.writerow(item)
+        write.writerow([item])
 
 R_list=list(zip(P_list,stampa,stampb))
 
