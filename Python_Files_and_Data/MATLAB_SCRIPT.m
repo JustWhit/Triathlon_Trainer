@@ -191,7 +191,7 @@ end
 
 %% activityProcessing
 format long;
-inFile = 'justin_combo_brb.csv';
+inFile = 'Matt_triathlon.csv';
 inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\raw';
 outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed';
 %check if folder exists
@@ -284,8 +284,7 @@ outfile = char(fullfile(outFolder,afile));
 
 dlmwrite(outfile,fv,'delimiter',',','precision',15);
 figure; hold on;
-plot(fv);
-title(afile);
+
 
 
 
