@@ -11,7 +11,7 @@ Activity_file=argv[1]
 P_list=[]
 
 p=re.compile(r'\d+\.\d+')
-filepath = './processed'
+filepath = './processed/200_TrainingSet/Model_Predictions'
 filename = os.path.join(filepath,Activity_file)
 
 with open(filename, 'r') as infile:

@@ -264,7 +264,7 @@ def Process_Activity(R_list):
     Ccounter=0 #current counter
     Tcounter=0 #transition counter
     Ncounter=0 #possible next counter
-    lastSeen=0 #how long since possible next was last seen
+    lastseen=0 #how long since possible next was last seen
     Bcounter=0 #stepback if next erroneous
     possibleN='' #possible next activity
     
@@ -284,7 +284,7 @@ def Process_Activity(R_list):
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                     lastseen = 0
-                elif: lastseen < 10
+                elif lastseen < 10:
                     Ncounter = Ncounter + 0.5
                     lastseen = lastseen + 1
                 else:
@@ -323,21 +323,29 @@ def Process_Activity(R_list):
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
+                    lastseen = 0
                     
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
+                    lastseen = 0
+                elif lastseen < 10:
+                    Ncounter = Ncounter + 0.5
+                    lastseen = lastseen + 1
                 elif Tcounter>100 and row[0]!=first:
                     secondStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
+                    lastseen = 0
                 else:
                     Tcounter = Tcounter + 1
+                    lastseen = lastseen + 1
 
                     
             else:
                 Ccounter=0
                 Tcounter= Tcounter+1
-
+                lastseen = lastseen + 1
+                
 
 
                 
@@ -357,7 +365,7 @@ def Process_Activity(R_list):
                 Ccounter= Ccounter+1
                 
             elif row[0] == first and secondStop==0:
-                if Bcounter>10:
+                if Bcounter>100:
                     second='NA'
                     secondStart=0
                     Bcounter=0
@@ -370,18 +378,26 @@ def Process_Activity(R_list):
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
+                    lastseen = 0
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
+                    lastseen = 0
+                elif lastseen < 10:
+                    Ncounter = Ncounter + 0.5
+                    lastseen = lastseen + 1
                 elif Tcounter>100 and row[0]!=second:
                     thirdStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
+                    lastseen = 0
                 else:
                     Tcounter = Tcounter + 1
+                    lastseen = lastseen + 1
                     
             else:
                 Ccounter=0
                 Tcounter= Tcounter+1
+                lastseen = lastseen + 1
 
 
                 
@@ -396,7 +412,7 @@ def Process_Activity(R_list):
             Ccounter= Ccounter+1
             
         elif row[0] == second and thirdStop==0:
-            if Bcounter>10:
+            if Bcounter>100:
                 third='NA'
                 thirdStart=0
                 Ccounter=Bcounter
