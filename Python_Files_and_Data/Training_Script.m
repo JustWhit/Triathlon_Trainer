@@ -17,7 +17,7 @@ testaccel = [];
 testgyro = [];
 
 % Get a list of all files in the folder with the desired file name pattern.
-activities = {'bike', 'run', 'swim'}; %, 'transition'
+activities = {'bike', 'run', 'swim', 'transition'}; %, 'transition'
 for x = 1: length(activities)
     fileregex = strcat('*',activities(x),'.csv');
     filePattern = char(fullfile(inFolder, fileregex)); % Change to whatever pattern you need.
@@ -71,7 +71,7 @@ for x = 1: length(activities)
             magGyro = sqrt(sgx.^2 + sgy.^2 + sgz.^2);
             %magGyro = (magGyro - mean(magGyro)) ./ std(magGyro);
             
-            window=300;
+            window=150;
             for i=1:30:size(magAccel,1)-window
                currentA = magAccel(i:i+window );
                currentG = magGyro(i:i+window);
