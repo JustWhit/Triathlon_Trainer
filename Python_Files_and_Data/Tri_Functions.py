@@ -269,12 +269,14 @@ def Process_Activity(R_list):
 
     for row in R_list:
         if first == 'NA':
+            
             if row[0] in activities:
-                if Ncounter>3 and possibleN==row[0]:
+                if Ncounter>100 and possibleN==row[0]:
                     first=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
+                    Tcounter = 0
                     
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
@@ -282,24 +284,33 @@ def Process_Activity(R_list):
                     firstStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
+                    Tcounter = Tcounter + Ccounter
+
+                    
             else:
                 Tcounter = Tcounter + 1
                 Ccounter = 0
+
+
+                
         elif second == 'NA':
+            
             if row[0] == first:
-                if Tcounter<10:
+                if Tcounter<100:
                     firstStop=row[2]
                     secondStart=0
                     Tcounter=1
-                elif Ccounter>3:
+                elif Ccounter>100:
                     firstStop=row[2]
                     secondStart=0
                     Tcounter=0                   
                 Ccounter = Ccounter+1
                 possibleN=''
                 Ncounter=0
+
+                
             elif row[0] in activities:
-                if Ncounter>4 and possibleN==row[0]:
+                if Ncounter>100 and possibleN==row[0]:
                     second=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
@@ -307,65 +318,84 @@ def Process_Activity(R_list):
                     
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
-                elif Tcounter>15 and row[0]!=first:
+                elif Tcounter>100 and row[0]!=first:
                     secondStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
+                else:
+                    Tcounter = Tcounter + 1
+
+                    
             else:
                 Ccounter=0
                 Tcounter= Tcounter+1
+
+
+
+                
         elif third == 'NA':
+            
             if row[0] == second:
-                if Tcounter<10:
+                if Tcounter<100:
                     secondStop=row[2]
                     thirdStart=0
                     Tcounter=1
-                if Ccounter>3:
+                if Ccounter>100:
                     secondStop=row[2]
                     thirdStart=0
                     Tcounter=0
                 possibleN=''
                 Ncounter=0
                 Ccounter= Ccounter+1
+                
             elif row[0] == first and secondStop==0:
-                if Bcounter>4:
+                if Bcounter>10:
                     second='NA'
                     secondStart=0
                     Bcounter=0
                 else:
                     Bcounter=Bcounter+1
+                    
             elif row[0] in activities:
-                if Ncounter>4 and possibleN==row[0]:
+                if Ncounter>100 and possibleN==row[0]:
                     third=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
-                elif Tcounter>15 and row[0]!=second:
+                elif Tcounter>100 and row[0]!=second:
                     thirdStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
+                else:
+                    Tcounter = Tcounter + 1
+                    
             else:
                 Ccounter=0
-                Tcounter= Tcounter+1               
+                Tcounter= Tcounter+1
+
+
+                
                 
         elif row[0] == third:
-            if Tcounter<10:
+            if Tcounter<100:
                 thirdStop=row[2]
                 Tcounter=1
-            if Ccounter>8:
+            if Ccounter>100:
                 thirdStop=row[2]
                 Tcounter=0                   
             Ccounter= Ccounter+1
+            
         elif row[0] == second and thirdStop==0:
-            if Bcounter>4:
+            if Bcounter>10:
                 third='NA'
                 thirdStart=0
                 Ccounter=Bcounter
                 Bcounter=0
             else:
                 Bcounter=Bcounter+1
+                
         else:
             Ccounter=0
             Tcounter= Tcounter+1            
@@ -382,3 +412,64 @@ def Process_Activity(R_list):
         return [[first, firstStart, firstStop],[second, secondStart, secondStop]]
     
     return [[first, firstStart, firstStop]]
+
+def newProcess_Activity(R_List):
+    
+    
+    firstStart=0
+    firstStop=0
+    secondStart=0
+    secondStop=0
+    thirdStart=0
+    thirdStop=0
+    first='NA'
+    second='NA'
+    third='NA'
+    activities=['run','bike','swim','transition']## add 'swim'
+    Ccounter=0 #current counter
+    Tcounter=0 #transition counter
+    Ncounter=0 #possible next counter
+    Bcounter=0 #stepback if next erroneous
+    possibleN='' #possible next activity
+
+    ##find the most occurrences for each activity
+    occurences = getOccurences(R_List)
+    
+    #print(occurences);
+        
+
+
+
+def getOccurences(R_List):
+
+    currentLabel=''
+    currentCount=0
+    startCurrent=0
+    stopCurrent=0
+    x=[]
+    for row in R_List:
+        if row[0] == currentLabel:
+            currentCount=currentCount + 1
+            stopCurrent = row[2]
+        else:
+            if currentLabel != '':
+                x.append([ currentCount, currentLabel, startCurrent, stopCurrent ])
+            startCurrent = row[1]
+            stopCurrent = row[2]
+            currentCount = 1
+            currentLabel = row[0]
+
+    return x
+
+
+
+
+
+
+
+
+
+
+
+
+    
