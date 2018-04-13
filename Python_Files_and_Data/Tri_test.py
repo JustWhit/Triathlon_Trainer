@@ -1,5 +1,6 @@
 from Tri_Functions import *
-import pandas
+import numpy as np
+import pandas as pd
 from sys import argv
 import csv
 import re
@@ -17,11 +18,16 @@ with open(filename, 'r') as infile:
     read = csv.reader(infile)
     P_list = list(read)
 
-E_list = Process_Activity(P_list)
+E_array = Process_Activity(P_list)
+E_df = pd.DataFrame(E_array)
 
 filename='Activity_Definitions_'.rstrip() + Activity_file
 
-with open(filename, 'w')as outfile:
-    write=csv.writer(outfile)
-    for item in E_list:
-        write.writerow([item])
+E_df.to_csv(filename, header = 'none')
+
+##with open(filename, 'w')as outfile:
+##    write=csv.writer(outfile)
+##    for item in E_list:
+##        write.writerow([item])
+##
+##E_array.tofile(filename,sep = ',')
