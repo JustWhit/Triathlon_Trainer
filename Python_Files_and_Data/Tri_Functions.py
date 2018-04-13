@@ -337,8 +337,6 @@ def Process_Activity(R_list):
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
-                    print(second, secondStop)
-                    print(third, thirdStart)
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                 elif Tcounter>15 and row[0]!=second:

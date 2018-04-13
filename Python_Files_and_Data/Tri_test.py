@@ -1,7 +1,8 @@
 from Tri_Functions import *
 import pandas
 from sys import argv
-import csvimport re
+import csv
+import re
 import os
 
 
@@ -9,12 +10,14 @@ Activity_file=argv[1]
 P_list=[]
 
 p=re.compile(r'\d+\.\d+')
+filepath = './processed'
+filename = os.path.join(filepath,Activity_file)
 
-with open(Activity_file, 'r') as infile:
+with open(filename, 'r') as infile:
     read = csv.reader(infile)
     P_list = list(read)
 
-E_list = Process_Activity(R_list)
+E_list = Process_Activity(P_list)
 
 filename='Activity_Definitions_'.rstrip() + Activity_file
 
