@@ -1,3 +1,4 @@
+format long;
 currentFile = 'MattTri_triathlon.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 outFolder = 'processed';
@@ -18,7 +19,19 @@ Def = readtable(DefPattern);
 delay = [];
 
 for i = 1: size(GR,1)
-    if (GR{i,1} == Def{i,1})
+    startDelay = -99999;
+    stopDelay = -99999;
+    label = char(GR{i,1});
+    predicted = char(Def{i,1});
+    if (strcmp(label, predicted))
+        startDelay = Def{i,2} - GR{i,2};
+        stopDelay = Def{i,3} - GR{i,3};
+        delay = [delay; label num2cell(startDelay) num2cell(stopDelay)];
+    else
+        delay = [delay; label num2cell(startDelay) num2cell(stopDelay)];
+    end
 end
 
-
+outFile = strcat('DELAY_', inFile);
+outDELAYPattern = char(fullfile(wFolder, outFolder, outFile )); % Change to whatever pattern you need.
+cell2csv(outDELAYPattern,delay);

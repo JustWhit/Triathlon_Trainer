@@ -18,7 +18,19 @@ Def = readtable(DefPattern);
 delay = [];
 
 for i = 1: size(GR,1)
-    if (GR{i,1} == Def{i,
+    startDelay = int16(-99999);
+    stopDelay = int16(-99999);
+    label = char(GR{i,1});
+    predicted = char(Def{i,1});
+    if (strcmp(label, predicted))
+        startDelay = int16(Def{i,2} - GR{i,2});
+        stopDelay = Def{i,3} - GR{i,3};
+        delay = [delay; label startDelay stopDelay];
+    else
+        delay = [delay; label startDelay stopDelay];
+    end
 end
 
-
+outFile = strcat('DELAY_', inFile);
+outDELAYPattern = char(fullfile(wFolder, outFolder, outFile )); % Change to whatever pattern you need.
+cell2csv(outDELAYPattern,delay);
