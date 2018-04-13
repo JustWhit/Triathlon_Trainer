@@ -107,6 +107,8 @@ for i=1:30:size(magAccel,1)-window
    
    if(Conf < 0.6)
        Plabel = activities(4);
+   elseif(score(label) < 0.4)
+       Plabel = activities(4);
    else
        Plabel = activities(label);
    end
