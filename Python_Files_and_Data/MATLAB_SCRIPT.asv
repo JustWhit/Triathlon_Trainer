@@ -1,5 +1,35 @@
 
 
+%% junk
+
+inFile = 'justin_combo_brb_features.csv';
+inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed';
+wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
+outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\SVM_pred';
+
+%check if folder exists
+if ~isdir(inFolder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', inFolder);
+  uiwait(warndlg(errorMessage));
+  return;
+end
+%check if folder exists
+if ~isdir(outFolder)
+  errorMessage = sprintf('Error: The following folder does not exist:\n%s', outFolder);
+  uiwait(warndlg(errorMessage));
+  return;
+end
+
+AFPattern = char(fullfile(inFolder, inFile)); % Change to whatever pattern you need.
+TLPattern = char(fullfile(wFolder, strcat('t_list_',inFile)));
+ActualPattern = char(fullfile(wFolder, strcat('Actual_',inFile)));
+GTPattern = char(fullfile(wFolder,strcat('Gt_',inFile)));
+
+AF = readtable(AFPattern);
+TL = readtable(TLPattern);
+Actual = readtable(ActualPattern);
+GT = readtable(GTPattern);
+
 
 %% confusion matrix
 % Folder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\';
@@ -160,7 +190,7 @@ for x = 1: length(activities)
     super = [super; fv];
     afile = strcat(activities(x),'.csv');
     outfile = char(strcat(outFolder,afile));
-    csvwrite(outfile,fv);
+    dlmwrite(outfile,fv);
     figure; hold on;
     plot(fv);
     title(activities(x));
@@ -256,7 +286,7 @@ for i=1:30:size(magAccel,1)-window
    
    [label,score] = predict(BaggedTree10.ClassificationEnsemble,fv);
    
-   PDiff = []
+   PDiff = [];
    for d = 1: 4
        if(d ~= label)
            temp = abs((score(label) - score(d))/((score(label)+score(d))/2)) * 100;
@@ -289,15 +319,11 @@ for i=1:30:size(magAccel,1)-window
    
    GR = [GR; maybe];
    
-   pvsgr = [
+   pvsgr = [score(label) Plabel maybe];
    
-   PvsGR =
+   PvsGR = [PvsGR; pvsgr];
    
-%    for j=1:length(activities)
-%         if(label==j)
-%            clable = activities(j); 
-%         end
-%    end
+
    
    
    
@@ -339,35 +365,7 @@ for i=1:30:size(magAccel,1)-window
 
 
 
-%% predictions
 
-inFile = 'justin_combo_brb_features.csv';
-inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed';
-wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
-outFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\SVM_pred';
-
-%check if folder exists
-if ~isdir(inFolder)
-  errorMessage = sprintf('Error: The following folder does not exist:\n%s', inFolder);
-  uiwait(warndlg(errorMessage));
-  return;
-end
-%check if folder exists
-if ~isdir(outFolder)
-  errorMessage = sprintf('Error: The following folder does not exist:\n%s', outFolder);
-  uiwait(warndlg(errorMessage));
-  return;
-end
-
-AFPattern = char(fullfile(inFolder, inFile)); % Change to whatever pattern you need.
-TLPattern = char(fullfile(wFolder, strcat('t_list_',inFile)));
-ActualPattern = char(fullfile(wFolder, strcat('Actual_',inFile)));
-GTPattern = char(fullfile(wFolder,strcat('Gt_',inFile)));
-
-AF = readtable(AFPattern);
-TL = readtable(TLPattern);
-Actual = readtable(ActualPattern);
-GT = readtable(GTPattern);
 
 
 

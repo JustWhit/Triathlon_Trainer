@@ -1,6 +1,6 @@
 
 
-%% predictions
+%% junk
 
 inFile = 'justin_combo_brb_features.csv';
 inFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed';

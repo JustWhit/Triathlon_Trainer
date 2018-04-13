@@ -79,7 +79,7 @@ for i=1:30:size(magAccel,1)-window
    [label,score] = predict(bagged300.ClassificationEnsemble,fv);
    
    PDiff = [];
-   for d = 1: length(score)
+   for d = 1: 4
        if(d ~= label)
            temp = abs((score(label) - score(d))/((score(label)+score(d))/2)) * 100;
            PDiff = [PDiff temp];
@@ -104,10 +104,10 @@ for i=1:30:size(magAccel,1)-window
        
    end
    
-   if(score(label) < 0.5)
-       Plabel = ('transition');
+   if(score(label) < 0.4)
+       Plabel = 'transition';
    elseif(min(PDiff) < 40)
-       Plabel = ('transition');
+       Plabel = 'transition';
    else
        Plabel = activities(label);
    end
