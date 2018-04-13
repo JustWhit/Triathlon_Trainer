@@ -374,8 +374,8 @@ def Process_Activity(R_list):
     print(third, thirdStart)
     print(third, thirdStop)
     if thirdStop!=0:
-        return np.array([[first, firstStart, firstStop],[second, secondStart, secondStop],[third, thirdStart, thirdStop]]) 
+        return [[first, firstStart, firstStop],[second, secondStart, secondStop],[third, thirdStart, thirdStop]] 
     if secondStop!=0:
-        return np.array([[first, firstStart, firstStop],[second, secondStart, secondStop]])
+        return [[first, firstStart, firstStop],[second, secondStart, secondStop]]
     
-    return np.array([[first, firstStart, firstStop]])
+    return [[first, firstStart, firstStop]]

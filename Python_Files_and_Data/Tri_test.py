@@ -18,16 +18,15 @@ with open(filename, 'r') as infile:
     read = csv.reader(infile)
     P_list = list(read)
 
-E_array = Process_Activity(P_list)
-E_df = pd.DataFrame(E_array)
+E_list = Process_Activity(P_list)
+#E_df = pd.DataFrame(E_array)
 
 filename='Activity_Definitions_'.rstrip() + Activity_file
 
-E_df.to_csv(filename, header = 'none')
+##E_df.to_csv(filename, header = 'none')
 
-##with open(filename, 'w')as outfile:
-##    write=csv.writer(outfile)
-##    for item in E_list:
-##        write.writerow([item])
+with open(filename, 'w')as outfile:
+    write=csv.writer(outfile)
+    write.writerows(E_list)
 ##
 ##E_array.tofile(filename,sep = ',')
