@@ -82,7 +82,7 @@ for i=1:30:size(magAccel,1)-window
  %  for d = 1: length(score)
 %        if(d ~= label)
 %            temp = abs((score(label) - score(d))/((score(label)+score(d))/2)) * 100;
-   Conf = score(d)/sum(score);
+   Conf = score(label)/sum(score);
      
 %        end
  %  end
