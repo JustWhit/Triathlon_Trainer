@@ -282,6 +282,9 @@ def Process_Activity(R_list):
                     firstStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
+            else:
+                Tcounter = Tcounter + 1
+                Ccounter = 0
         elif second == 'NA':
             if row[0] == first:
                 if Tcounter<10:
