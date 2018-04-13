@@ -76,7 +76,7 @@ for i=1:30:size(magAccel,1)-window
    
         
    
-   [label,score] = predict(BaggedTree300_3.ClassificationEnsemble,fv);
+   [label,score] = predict(BaggedTree300_4.ClassificationEnsemble,fv);
    
    
  %  for d = 1: length(score)
@@ -88,14 +88,14 @@ for i=1:30:size(magAccel,1)-window
  %  end
    
    
-%    if(conf < 40)
-%        currentA = currentA(1:window/2);
-%        currentG = currentG(1:window/2);
-%        fA = features(currentA, currentG);
-%        thisTime = [time(i) time(i+(window/2))];
-%      [label,score] = predict(BaggedTree5.ClassificationEnsemble, fA);
-%      
-%    end
+   if(Conf < 0.6)
+       currentA = currentA(1:window/2);
+       currentG = currentG(1:window/2);
+       fA = features(currentA, currentG);
+       thisTime = [time(i) time(i+(window/2))];
+     [label,score] = predict(BaggedTree150_4.ClassificationEnsemble, fA);
+     
+   end
    
    maybe = 'transition';
    for k=1:size(GR,1)
@@ -105,13 +105,13 @@ for i=1:30:size(magAccel,1)-window
        
    end
    
-   if(Conf < 0.6)
-       Plabel = activities(4);
-   elseif(score(label) < 0.3)
-       Plabel = activities(4);
-   else
+%    if(Conf < 0.6)
+%        Plabel = activities(4);
+%    elseif(score(label) < 0.3)
+%        Plabel = activities(4);
+%    else
        Plabel = activities(label);
-   end
+%    end
    
    
    
