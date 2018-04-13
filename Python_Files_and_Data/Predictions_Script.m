@@ -64,7 +64,7 @@ predicted = [];
 GTruth = [];
 PvsGR = [];
 activities = { 'bike', 'run', 'swim', 'transition'};
-window=300;
+window=150;
 for i=1:30:size(magAccel,1)-window
    currentA = magAccel(i:i+window);
    currentG = magGyro(i:i+window);
@@ -168,6 +168,9 @@ cell2csv(PvsGRPattern,PvsGR);
    
    maxAmpA = max(currentA);
    maxAmpG = max(currentG);
+   
+   GE = entropy(currentG);
+   AE = entropy(currentA);
 
    X = [meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
    X(isnan(X))=0;
