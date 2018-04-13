@@ -28,6 +28,7 @@ for x = 1: length(activities)
         
             
             thisfile=char(fullfile(theFiles(k).folder,theFiles(k).name));
+            disp(thisfile);
             f = readtable(thisfile);
             f1 = sortrows(f,1);
             %f1 = normalize(f2{:,'scale','std');   
