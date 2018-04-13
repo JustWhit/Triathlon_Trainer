@@ -64,7 +64,7 @@ predicted = [];
 GTruth = [];
 PvsGR = [];
 activities = { 'bike', 'run', 'swim', 'transition'};
-window=300;
+window=150;
 for i=1:30:size(magAccel,1)-window
    currentA = magAccel(i:i+window);
    currentG = magGyro(i:i+window);
@@ -76,15 +76,16 @@ for i=1:30:size(magAccel,1)-window
    
         
    
-   [label,score] = predict(bagged300.ClassificationEnsemble,fv);
+   [label,score] = predict(BaggedTree150.ClassificationEnsemble,fv);
    
-   PDiff = [];
-   for d = 1: length(score)
-       if(d ~= label)
-           temp = abs((score(label) - score(d))/((score(label)+score(d))/2)) * 100;
-           PDiff = [PDiff temp];
-       end
-   end
+   
+ %  for d = 1: length(score)
+%        if(d ~= label)
+%            temp = abs((score(label) - score(d))/((score(label)+score(d))/2)) * 100;
+    temp = score(d)/sum(score);
+    PDiff 
+%        end
+ %  end
    
    
 %    if(min(PDiff) < 40)
@@ -106,7 +107,7 @@ for i=1:30:size(magAccel,1)-window
    
    if(score(label) < 0.5)
        Plabel = activities(4);
-   elseif(min(PDiff) < 40)
+   elseif(min(PDiff) < 50)
        Plabel = activities(4);
    else
        Plabel = activities(label);
@@ -148,10 +149,13 @@ cell2csv(PvsGRPattern,PvsGR);
         gpks = zeros(5,1);
 
    end
-   PSDA = pwelch(currentA);
-   PSDG = pwelch(currentG);
-   maxPSDA = max(PSDA);
-   maxPSDG = max(PSDG);
+   [PSDA,Aw] = pwelch(currentA);
+   [PSDG, Gw] = pwelch(currentG);
+   
+   [maxPSDA, Ai] = max(PSDA);
+   [maxPSDG, Gi] = max(PSDG);
+   freqPSDA = Aw(Ai);
+   freqPSDG = Gw(Gi);
    meanPDistA = mean(diff(alocs)); %mean of the Distance between peaks for Accel magnitude
    stdPDistA = std(diff(alocs));% standard deviation of the Distance between peaks for Accel magnitude
    meanPDistG = mean(diff(glocs)); % mean of the distance between peraks for Gyro magnitude
@@ -168,8 +172,11 @@ cell2csv(PvsGRPattern,PvsGR);
    
    maxAmpA = max(currentA);
    maxAmpG = max(currentG);
+   
+   GE = entropy(currentG);
+   AE = entropy(currentA);
 
-   X = [meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
+   X = [meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA freqPSDA freqPSDG]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
    X(isnan(X))=0;
  end
  

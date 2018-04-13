@@ -57,7 +57,7 @@ for x = 1: length(activities)
             saz = smooth(az,5, 'lowess');
 
             magAccel = sqrt(sax.^2 + say.^2 + saz.^2);
-            magAccel = (magAccel - mean(magAccel)) ./ std(magAccel);
+            %magAccel = (magAccel - mean(magAccel)) ./ std(magAccel);
 
             gx=f1{:,5};
             gy=f1{:,6};
@@ -68,7 +68,7 @@ for x = 1: length(activities)
             sgz = smooth(gz,5, 'lowess');
 
             magGyro = sqrt(sgx.^2 + sgy.^2 + sgz.^2);
-            magGyro = (magGyro - mean(magGyro)) ./ std(magGyro);
+            %magGyro = (magGyro - mean(magGyro)) ./ std(magGyro);
             
             window=150;
             for i=1:30:size(magAccel,1)-window
@@ -111,26 +111,33 @@ function X = features(x,currentA,currentG)
         gpks = zeros(5,1);
 
    end
-   PSDA = pwelch(currentA);
-   PSDG = pwelch(currentG);
-   maxPSDA = max(PSDA);
-   maxPSDG = max(PSDG);
+   [PSDA,Aw] = pwelch(currentA);
+   [PSDG, Gw] = pwelch(currentG);
+   
+   [maxPSDA, Ai] = max(PSDA);
+   [maxPSDG, Gi] = max(PSDG);
+   freqPSDA = Aw(Ai);
+   freqPSDG = Gw(Gi);
    meanPDistA = mean(diff(alocs)); %mean of the Distance between peaks for Accel magnitude
    stdPDistA = std(diff(alocs));% standard deviation of the Distance between peaks for Accel magnitude
    meanPDistG = mean(diff(glocs)); % mean of the distance between peraks for Gyro magnitude
    stdPDistG = std(diff(glocs)); % standard deviation for the distance between peaks for Gyro magnitude
-   
-   
+
+
+
    stdPAmpA = std(apks); %standard deviation of the amplitude of the peaks for Accel magnitude
    meanPAmpA = mean(apks); %mean of the amplitude of the peaks for Accel magnitude
    stdPAmpG = std(gpks); % standard deviation of the amplitude of the peaks for Gyro magnitude
    meanPAmpG = mean(gpks);
    rmsAmpA = rms(currentA); % RMS of the amplitude for Accel magnitude
    rmsAmpG = rms(currentG); % RMS of the amplitude for Gyro magnitude
-
+   
    maxAmpA = max(currentA);
    maxAmpG = max(currentG);
    
-   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG ]; %  maxAmpA maxAmpG
+   GE = entropy(currentG);
+   AE = entropy(currentA);
+
+   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA freqPSDA freqPSDG]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
    X(isnan(X))=0;
  end
