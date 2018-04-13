@@ -4,17 +4,17 @@ wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 outFolder = 'processed';
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_predictions_', currentFile);
-DefPattern = char(fullfile(wFolder, DefFile));
+DefFile = strcat('150_4Activity_Definitions_predictions_', currentFile);
+DefPattern = char(fullfile(wFolder,outFolder, DefFile));
 
-
+C = strsplit(inFile, '_');
 grFile=strcat(C(1),'_gr.csv');
 grPattern = char(fullfile(wFolder,grFile));
 
 
 
 GR = readtable(grPattern);
-Def = readtable(DefPattern);
+Def = readtable(DefPattern, 'ReadVariableNames',false);
 
 delay = [];
 
@@ -22,13 +22,18 @@ for i = 1: size(GR,1)
     startDelay = -99999;
     stopDelay = -99999;
     label = char(GR{i,1});
-    predicted = char(Def{i,1});
-    if (strcmp(label, predicted))
-        startDelay = Def{i,2} - GR{i,2};
-        stopDelay = Def{i,3} - GR{i,3};
-        delay = [delay; label num2cell(startDelay) num2cell(stopDelay)];
+    jars = size(Def,1);
+    if(i <= size(Def,1))
+        predicted = char(Def{i,1});
+        if (strcmp(label, predicted))
+            startDelay = Def{i,2} - GR{i,2};
+            stopDelay = Def{i,3} - GR{i,3};
+            delay = [delay; label num2cell(startDelay) num2cell(stopDelay)];
+        else
+            delay = [delay; label num2cell(startDelay) num2cell(stopDelay)];
+        end
     else
-        delay = [delay; label num2cell(startDelay) num2cell(stopDelay)];
+        delay = [delay; label num2cell(startDelay) num2cell(stopDelay)]; 
     end
 end
 
