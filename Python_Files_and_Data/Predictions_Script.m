@@ -105,9 +105,9 @@ for i=1:30:size(magAccel,1)-window
    end
    
    if(score(label) < 0.5)
-       Plabel = ('transition');
-   elseif(min(PDiff) < 40)
-       Plabel = ('transition');
+       Plabel = activities(4);
+   elseif(min(PDiff) < 50)
+       Plabel = activities(4);
    else
        Plabel = activities(label);
    end
@@ -120,11 +120,11 @@ for i=1:30:size(magAccel,1)-window
    
    GTruth = [GTruth; maybe];
    
-   pvsgr = [score(label) Plabel maybe];
+   pvsgr = [Plabel maybe score];
    
    PvsGR = [PvsGR; pvsgr];
    
-
+    
    
    
    
