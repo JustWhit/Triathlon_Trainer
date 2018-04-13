@@ -264,8 +264,10 @@ def Process_Activity(R_list):
     Ccounter=0 #current counter
     Tcounter=0 #transition counter
     Ncounter=0 #possible next counter
+    lastSeen=0 #how long since possible next was last seen
     Bcounter=0 #stepback if next erroneous
     possibleN='' #possible next activity
+    
 
     for row in R_list:
         if first == 'NA':
@@ -277,20 +279,26 @@ def Process_Activity(R_list):
                     Ncounter=0
                     possibleN=''
                     Tcounter = 0
+                    lastseen = 0
                     
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
+                    lastseen = 0
+                elif: lastseen < 10
+                    Ncounter = Ncounter + 0.5
+                    lastseen = lastseen + 1
                 else:
                     firstStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
                     Tcounter = Tcounter + Ccounter
+                    lastseen = 0
 
                     
             else:
                 Tcounter = Tcounter + 1
                 Ccounter = 0
-
+                lastseen = lastseen + 1
 
                 
         elif second == 'NA':
@@ -412,6 +420,16 @@ def Process_Activity(R_list):
         return [[first, firstStart, firstStop],[second, secondStart, secondStop]]
     
     return [[first, firstStart, firstStop]]
+
+
+
+
+
+
+
+
+
+
 
 def newProcess_Activity(R_List):
     
