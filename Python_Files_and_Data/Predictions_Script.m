@@ -88,7 +88,7 @@ for i=1:30:size(magAccel,1)-window
  %  end
    
    
-%    if(min(PDiff) < 40)
+%    if(conf < 40)
 %        currentA = currentA(1:window/2);
 %        currentG = currentG(1:window/2);
 %        fA = features(currentA, currentG);
