@@ -28,9 +28,9 @@ for i=1:size(GR,1) %loops through the ground truth, comparing to predictions in 
             notCounter = 0; 
             
             if(PvsGR{k,1} == label)
-                lastKnown = k;
+                lastKnown
             elseif(notCounter >=15)
-                startD = lastKnown - startTime;
+                delay = [delay; label k - startTime;
                 break;
             end
         end
