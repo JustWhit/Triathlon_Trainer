@@ -3,8 +3,8 @@ wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 outFolder = 'processed';
 inFolder = 'raw';
 
-PvsGTfile = strcat('PvsGT_', currentFile);
-PvsGRPattern = char(fullfile(wFolder, PvsGTfile));
+DefFile = strcat('Activity_Definitions_predictions_', currentFile);
+DefPattern = char(fullfile(wFolder, DefFile));
 
 
 grFile=strcat(C(1),'_gr.csv');
@@ -13,30 +13,12 @@ grPattern = char(fullfile(wFolder,grFile));
 
 
 GR = readtable(grPattern);
-PvsGR = readtable(PvsGRPattern);
+Def = readtable(DefPattern);
 
 delay = [];
-for i=1:size(GR,1) %loops through the ground truth, comparing to predictions in PvsGR
-    startTime = ceil(GR{i,2});
-    stopTime = floor(GR{i,3});
-    label = GR{i,1};
-    startD=0;
-    stopD=0;
-    if(PvsGR{startTime,1} == label) % if the prediction at start time is correct, loop back until the initial prediction. allow 15 misclassifications
-           lastKnown = startTime;
-        for k=startTime-1:-1:1
-            notCounter = 0; 
-            
-            if(PvsGR{k,1} == label)
-                lastKnown
-            elseif(notCounter >=15)
-                delay = [delay; label k - startTime;
-                break;
-            end
-        end
-    
-    
-    
+
+for i = 1: size(GR,1)
+    if (GR{i,1} == Def{i,
 end
 
 
