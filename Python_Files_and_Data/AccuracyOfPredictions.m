@@ -35,6 +35,8 @@ end
 overallAcc = NumCorrect / NumRows;
 disp(overallAcc);
 [CM, order] = confusionmat(group,grouphat,'Order',{'transition', 'bike', 'run', 'swim'});
+
 disp(CM);
+figure;
 plotConfMat(CM, order);
 
