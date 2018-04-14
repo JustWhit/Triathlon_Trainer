@@ -5,7 +5,7 @@ traininSetFolder = 'processed\200_TrainingSet';
 activityFolder = 'Activity_Definitions'
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_300_4predictions_', currentFile);
+DefFile = strcat('Activity_Definitions_300_150_4predictions_', currentFile);
 DefPattern = char(fullfile(wFolder,traininSetFolder,activityFolder, DefFile));
 
 C = strsplit(inFile, '_');

@@ -4,10 +4,26 @@ workFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 procFolder = 'processed';
 rawFolder = 'raw';
 
-% PvsGTfile = strcat('PvsGT_', inFile);
-% PvsGRPattern = char(fullfile(wFolder, PvsGTfile));
-% 
-% PvsGR = readtable(PvsGRPattern);
-truelabels = table2cell(PvsGT{:,2});
-output = table2cell(PvsGT{:,1});
-CP = classperf(truelabels, output);
+PvsGTfile = strcat('PvsGT_', inFile);
+PvsGRPattern = char(fullfile(wFolder, PvsGTfile));
+
+PvsGR = readtable
+
+swimTruePos=0;
+swimFalsePos=0;
+swimTrueNeg=0;
+runTruePos=0;
+runFalsePos=0;
+runTrueNeg=0;
+bikeTruePos=0;
+bikeFalsePos=0;
+bikeTrueNeg=0;
+tranTruePos=0;
+tranFalsePos=0;
+tranTrueNeg=0;
+overallAcc = 0;
+
+NumRows = size(
+for i=1:
+
+
