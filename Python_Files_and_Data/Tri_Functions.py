@@ -284,7 +284,7 @@ def Process_Activity(R_list):
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                     lastseen = 0
-                elif lastseen < 50:
+                elif lastseen < 10:
                     Ncounter = Ncounter + 0.5
                     lastseen = lastseen + 1
                 else:
@@ -304,7 +304,7 @@ def Process_Activity(R_list):
         elif second == 'NA':
             
             if row[0] == first:
-                if Tcounter<75:
+                if Tcounter<30:
                     firstStop=row[2]
                     secondStart=0
                     Tcounter=1
@@ -328,10 +328,10 @@ def Process_Activity(R_list):
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                     lastseen = 0
-                elif lastseen < 50:
+                elif lastseen < 10:
                     Ncounter = Ncounter + 0.5
                     lastseen = lastseen + 1
-                elif Tcounter>75 and row[0]!=first:
+                elif Tcounter>30 and row[0]!=first:
                     secondStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
@@ -352,7 +352,7 @@ def Process_Activity(R_list):
         elif third == 'NA':
             
             if row[0] == second:
-                if Tcounter<75:
+                if Tcounter<30:
                     secondStop=row[2]
                     thirdStart=0
                     Tcounter=1
@@ -365,7 +365,7 @@ def Process_Activity(R_list):
                 Ccounter= Ccounter+1
                 
             elif row[0] == first and secondStop==0:
-                if Bcounter>75:
+                if Bcounter>30:
                     second='NA'
                     secondStart=0
                     Bcounter=0
@@ -373,7 +373,7 @@ def Process_Activity(R_list):
                     Bcounter=Bcounter+1
                     
             elif row[0] in activities:
-                if Ncounter>75 and possibleN==row[0]:
+                if Ncounter>30 and possibleN==row[0]:
                     third=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
@@ -382,10 +382,10 @@ def Process_Activity(R_list):
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                     lastseen = 0
-                elif lastseen < 50:
+                elif lastseen < 10:
                     Ncounter = Ncounter + 0.5
                     lastseen = lastseen + 1
-                elif Tcounter>100 and row[0]!=second:
+                elif Tcounter>30 and row[0]!=second:
                     thirdStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
@@ -403,7 +403,7 @@ def Process_Activity(R_list):
                 
                 
         elif row[0] == third:
-            if Tcounter<75:
+            if Tcounter<30:
                 thirdStop=row[2]
                 Tcounter=1
             if Ccounter>75:
@@ -412,7 +412,7 @@ def Process_Activity(R_list):
             Ccounter= Ccounter+1
             
         elif row[0] == second and thirdStop==0:
-            if Bcounter>75:
+            if Bcounter>30:
                 third='NA'
                 thirdStart=0
                 Ccounter=Bcounter
