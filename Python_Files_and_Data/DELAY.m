@@ -1,11 +1,11 @@
 format long;
-currentFile = 'justin_combo_brb.csv';
+currentFile = 'MattTri_triathlon.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 traininSetFolder = 'processed\200_TrainingSet';
 activityFolder = 'Activity_Definitions'
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_300_150_4predictions_', currentFile);
+DefFile = strcat('Activity_Definitions_300_150_90_4predictions_', currentFile);
 DefPattern = char(fullfile(wFolder,traininSetFolder,activityFolder, DefFile));
 
 C = strsplit(inFile, '_');

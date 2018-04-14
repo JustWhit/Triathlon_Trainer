@@ -75,8 +75,10 @@ for x = 1: length(activities)
             for i=1:30:size(magAccel,1)-window
                currentA = magAccel(i:i+window );
                currentG = magGyro(i:i+window);
+               currentSax = sax(i:i+window);
+               currentSay = say(i:i+window);
                thisTime = [time(i) time(i+window)];
-               fv = [fv; features(x,currentA, currentG)]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
+               fv = [fv; features(x,currentA, currentG, currentSax, currentSay)]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
                if(size(fv,1)>=200)
                     break;
                end
@@ -92,7 +94,8 @@ for x = 1: length(activities)
     outfile = char(strcat(outFolder,afile));
     dlmwrite(outfile,fv);
     figure; hold on;
-    plot(fv);
+    boxplot(fv);
+    ylim([0,100]);
     title(activities(x));
     
     if(x==1 || x==4)
@@ -104,7 +107,7 @@ end
 
 
 
-function X = features(x,currentA,currentG)
+function X = features(x,currentA,currentG,sax,say)
     [apks,alocs] = findpeaks(currentA,'MinPeakProminence',1);
    [gpks,glocs] = findpeaks(currentG,'MinPeakProminence',0.5);
    if(isempty(glocs))
@@ -135,10 +138,10 @@ function X = features(x,currentA,currentG)
    
    maxAmpA = max(currentA);
    maxAmpG = max(currentG);
-   
+   or = rad2deg(mean(atan(sax./say)));
    GE = entropy(currentG);
    AE = entropy(currentA);
 
-   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA freqPSDA freqPSDG]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
+   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG or]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
    X(isnan(X))=0;
  end

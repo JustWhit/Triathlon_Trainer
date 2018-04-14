@@ -1,5 +1,5 @@
 format long;
-inFile = 'MattTri_triathlon.csv';
+inFile = 'justin_combo_brb.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 outFolder = 'processed';
 inFolder = 'raw';
@@ -61,12 +61,31 @@ sgz = smooth(gz,5, 'lowess');
 
 magGyro = sqrt(sgx.^2 + sgy.^2 + sgz.^2);
 
-count150 = 0;
-count90 = 0;
+
+
 
 predicted = [];
 GTruth = [];
-PvsGR = [];
+ise = evalin( 'base', 'exist(''PvsGR'',''var'') == 1' );
+if ~ise
+    PvsGR = [];
+end
+
+ise = evalin( 'base', 'exist(''count300'',''var'') == 1' );
+if ~ise
+    count300 = 0;
+end
+
+ise = evalin( 'base', 'exist(''count150'',''var'') == 1' );
+if ~ise
+    count150 = 0;
+end
+
+ise = evalin( 'base', 'exist(''count90'',''var'') == 1' );
+if ~ise
+    count90 = 0;
+end
+        
 activities = { 'bike', 'run', 'swim', 'transition'};
 window=300;
 for i=1:30:size(magAccel,1)-window
@@ -81,7 +100,7 @@ for i=1:30:size(magAccel,1)-window
         
    
    [label,score] = predict(BaggedTree300_4.ClassificationEnsemble,fv);
-   
+   count300 = count300 + 1;
    
  %  for d = 1: length(score)
 %        if(d ~= label)
@@ -113,7 +132,7 @@ for i=1:30:size(magAccel,1)-window
    
    
    
-   maybe = 'transition';
+   maybe = activities(4);
    for k=1:size(GR,1)
        if( thisTime(1) > GR{k,2} && thisTime(2) < GR{k,3})
           maybe = GR{k,1};
