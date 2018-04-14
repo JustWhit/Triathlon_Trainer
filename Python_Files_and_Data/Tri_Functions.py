@@ -284,7 +284,7 @@ def Process_Activity(R_list):
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                     lastseen = 0
-                elif lastseen < 10:
+                elif lastseen < 50:
                     Ncounter = Ncounter + 0.5
                     lastseen = lastseen + 1
                 else:
@@ -328,7 +328,7 @@ def Process_Activity(R_list):
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                     lastseen = 0
-                elif lastseen < 10:
+                elif lastseen < 50:
                     Ncounter = Ncounter + 0.5
                     lastseen = lastseen + 1
                 elif Tcounter>75 and row[0]!=first:
@@ -382,7 +382,7 @@ def Process_Activity(R_list):
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
                     lastseen = 0
-                elif lastseen < 10:
+                elif lastseen < 50:
                     Ncounter = Ncounter + 0.5
                     lastseen = lastseen + 1
                 elif Tcounter>100 and row[0]!=second:
