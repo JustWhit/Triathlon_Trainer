@@ -1,5 +1,5 @@
 format long;
-inFile = 'MattTri_triathlon.csv';
+inFile = 'justin_combo_brb.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 outFolder = 'processed';
 inFolder = 'raw';
