@@ -1,6 +1,6 @@
 format long;
-% inFile = 'MattTri_triathlon.csv';
-inFile = 'justin_combo_brb.csv';
+inFile = 'MattTri_triathlon.csv';
+% inFile = 'justin_combo_brb.csv';
 % inFile = 'John_combo_rB.csv';
 % inFile = 'Matt_combo_bR.csv'; 
 % inFile = 'Radlyn_combo_rb.csv';
@@ -93,7 +93,7 @@ if ~ise
 end
         
 activities = { 'bike', 'run', 'swim', 'transition'};
-window=150;
+window=300;
 for i=1:30:size(magAccel,1)-window
    currentA = magAccel(i:i+window);
    currentG = magGyro(i:i+window);
@@ -107,7 +107,7 @@ for i=1:30:size(magAccel,1)-window
    
         
    
-   [label,score] = predict(CubicSVM150_4_OR.ClassificationSVM,fv);
+   [label,score] = predict(CubicSVM300_4_OR.ClassificationSVM,fv);
    count300 = count300 + 1;
    
  %  for d = 1: length(score)

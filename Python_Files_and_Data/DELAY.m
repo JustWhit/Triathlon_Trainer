@@ -1,14 +1,18 @@
 format long;
-currentFile = 'MattTri_triathlon.csv';
+% currentFile = 'MattTri_triathlon.csv';
+currentFile = 'justin_combo_brb.csv';
+% currentFile = 'John_combo_rB.csv';
+% currentFile = 'Matt_combo_bR.csv'; 
+% currentFile = 'Radlyn_combo_rb.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 traininSetFolder = 'processed\200_TrainingSet';
 activityFolder = 'Activity_Definitions'
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_300_150_90_4predictions_', currentFile);
+DefFile = strcat('Activity_Definitions_150_4_ORpredictions_', currentFile);
 DefPattern = char(fullfile(wFolder,traininSetFolder,activityFolder, DefFile));
 
-C = strsplit(inFile, '_');
+C = strsplit(currentFile, '_');
 grFile=strcat(C(1),'_gr.csv');
 grPattern = char(fullfile(wFolder,grFile));
 
@@ -38,6 +42,6 @@ for i = 1: size(GR,1)
     end
 end
 
-outFile = strcat('DELAY_', inFile);
+outFile = strcat('DELAY_', currentFile);
 outDELAYPattern = char(fullfile(wFolder, traininSetFolder, outFile )); % Change to whatever pattern you need.
 cell2csv(outDELAYPattern,delay);
