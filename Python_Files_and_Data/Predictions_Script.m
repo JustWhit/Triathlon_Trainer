@@ -1,6 +1,6 @@
 format long;
-inFile = 'MattTri_triathlon.csv';
-% inFile = 'justin_combo_brb.csv';
+% inFile = 'MattTri_triathlon.csv';
+inFile = 'justin_combo_brb.csv';
 % inFile = 'John_combo_rB.csv';
 % inFile = 'Matt_combo_bR.csv'; 
 % inFile = 'Radlyn_combo_rb.csv';
@@ -107,7 +107,7 @@ for i=1:30:size(magAccel,1)-window
    
         
    
-   [label,score] = predict(CubicSVM300_4_OR.ClassificationSVM,fv);
+   [label,score] = predict(BaggedTree300_4_15f.ClassificationEnsemble,fv);
    count300 = count300 + 1;
    
  %  for d = 1: length(score)
@@ -121,16 +121,16 @@ for i=1:30:size(magAccel,1)-window
  %  end
    
    
-%    if(Conf < 0.5)
-%        currentA = currentA(1:window/2);
-%        currentG = currentG(1:window/2);
-%        currentSax = sax(1:window/2);
-%        currentSay = say(1:window/2);
-%        fA = features(currentA, currentG,currentSax, currentSay);
-%        thisTime = [time(i) time(i+(window/2))];
-%      [label,score] = predict(CubicSVM150_4_OR.ClassificationSVM, fA);
-%      count150=count150+1;
-%    end
+   if(Conf < 0.5)
+       currentA = currentA(1:window/2);
+       currentG = currentG(1:window/2);
+       currentSax = sax(1:window/2);
+       currentSay = say(1:window/2);
+       fA = features(currentA, currentG,currentSax, currentSay);
+       thisTime = [time(i) time(i+(window/2))];
+     [label,score] = predict(BaggedTree150_4_15f.ClassificationEnsemble, fA);
+     count150=count150+1;
+   end
 %    
 %   x = (score-min(score))/(max(score)-min(score));
 %    Conf = x(label)/sum(x);
@@ -226,7 +226,7 @@ cell2csv(PvsGRPattern,PvsGR);
    GE = entropy(currentG);
    AE = entropy(currentA);
 
-   X = [meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG or]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
+   X = [meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG or GE AE]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
    X(isnan(X))=0;
  end
  

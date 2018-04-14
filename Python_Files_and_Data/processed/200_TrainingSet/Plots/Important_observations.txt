@@ -1,0 +1,15 @@
+Just putting ideas and observations down here:
+
+1. User takes longer breath when working out.
+
+2. Every exercise has a recommended breathing pattern which also constitutes proper form. For bench press: Exhale when lifting, Inhale on the way down. Now, we know when you inhale and exhale. If we also have a way of finding out whether you were pushing the weight or bringing it in during each cycle, we could give you feedback on form.
+
+3. How is breathing affected as user gets tired? Patterns?
+
+4. How much of the capacitance is muscle expansion/contraction? Is it separable? Does it provide same information as breathing or additional information?
+
+5. Does it change with the weight you are lifting? What happens as you lift lower weight.
+
+6. How consistent are these observations over various exercises. We don't need too many, but may be 2-3 for comparison. 
+
+7. Eventually, we can do some preliminary analysis for aerobic exercises also.

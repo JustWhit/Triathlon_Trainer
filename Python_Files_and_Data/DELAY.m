@@ -9,7 +9,7 @@ traininSetFolder = 'processed\200_TrainingSet';
 activityFolder = 'Activity_Definitions'
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_150_4_ORpredictions_', currentFile);
+DefFile = strcat('Activity_Definitions_300_4_ORpredictions_', currentFile);
 DefPattern = char(fullfile(wFolder,traininSetFolder,activityFolder, DefFile));
 
 C = strsplit(currentFile, '_');

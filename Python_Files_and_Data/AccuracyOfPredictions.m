@@ -1,5 +1,9 @@
 format long;
 inFile = 'MattTri_triathlon.csv';
+% inFile = 'justin_combo_brb.csv';
+% inFile = 'John_combo_rB.csv';
+% inFile = 'Matt_combo_bR.csv'; 
+% inFile = 'Radlyn_combo_rb.csv';
 workFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 procFolder = 'processed\200_TrainingSet\PredVSGT';
 rawFolder = 'raw';

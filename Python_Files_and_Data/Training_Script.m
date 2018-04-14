@@ -71,7 +71,7 @@ for x = 1: length(activities)
             magGyro = sqrt(sgx.^2 + sgy.^2 + sgz.^2);
             %magGyro = (magGyro - mean(magGyro)) ./ std(magGyro);
             
-            window=90;
+            window=150;
             for i=1:30:size(magAccel,1)-window
                currentA = magAccel(i:i+window );
                currentG = magGyro(i:i+window);
@@ -79,7 +79,7 @@ for x = 1: length(activities)
                currentSay = say(i:i+window);
                thisTime = [time(i) time(i+window)];
                fv = [fv; features(x,currentA, currentG, currentSax, currentSay)]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
-               if(size(fv,1)>=200)
+               if(size(fv,1)>=400)
                     break;
                end
             end
@@ -96,6 +96,7 @@ for x = 1: length(activities)
     figure; hold on;
     boxplot(fv);
     ylim([0,100]);
+%     plot(fv);
     title(activities(x));
     
     if(x==1 || x==4)
@@ -142,6 +143,6 @@ function X = features(x,currentA,currentG,sax,say)
    GE = entropy(currentG);
    AE = entropy(currentA);
 
-   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG or]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
+   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG or GE AE]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
    X(isnan(X))=0;
  end

@@ -1,0 +1,45 @@
+300_150_90_4_BaggedTrees
+	accuracy 91.82%
+		matttri swim	12.9977		5.2293
+				bike	-52.5532	73.8865
+				run		-3.5174		-0.3837
+
+300_150_90_4_OR
+	accuracy 74.95%
+	delay:
+		matttri swim   -40.393		5.2293
+				bike	-4.598 		58.5108
+				run		-8.0399		4.139
+		justin	bike	17.1854		-230.6789
+				run	 	0.0393		-277.9912
+				bike	-99999		-99999
+				
+90_4_OR
+	accuracy 79.07%
+	delay:
+		matttri	swim	16.6272		4.3244
+				bike	124.783		63.9375
+				run		-13.4669	25.8478
+		justin	bike	140.2368	-143.8328
+				run	6	5.1915		-0.2641
+				bike	-99999		-99999
+
+150_4_OR
+	accuracy 79.7%
+	delay:
+		matttri	swim	-30.4398	5.2293
+				bike	-0.9785		59.4152
+				run		-18.894		-0.3837
+		justin	bike	-8.1512		-147.4513
+				run		63.3821		0.6405
+				bike	-99999		-99999
+				
+300_4_OR
+	accuracy 72.67%
+	delay:
+		matttri swim	-2.39		9.7538
+				bike	-4.598		64.8419
+				run		-17.9895	4.139
+		justin	bike	45.2353		23.5228
+				run		4.5627		0.6405
+				bike	-99999		-99999
