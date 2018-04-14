@@ -1,5 +1,5 @@
 format long;
-currentFile = 'MattTri_triathlon.csv';
+currentFile = 'justin_combo_brb.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 traininSetFolder = 'processed\200_TrainingSet';
 activityFolder = 'Activity_Definitions'

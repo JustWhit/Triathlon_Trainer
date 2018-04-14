@@ -1,5 +1,5 @@
 format long;
-inFile = 'justin_combo_brb.csv';
+inFile = 'MattTri_triathlon.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 outFolder = 'processed';
 inFolder = 'raw';
@@ -60,6 +60,10 @@ sgy = smooth(gy,5, 'lowess');
 sgz = smooth(gz,5, 'lowess');
 
 magGyro = sqrt(sgx.^2 + sgy.^2 + sgz.^2);
+
+count150 = 0;
+count90 = 0;
+
 predicted = [];
 GTruth = [];
 PvsGR = [];
@@ -94,8 +98,20 @@ for i=1:30:size(magAccel,1)-window
        fA = features(currentA, currentG);
        thisTime = [time(i) time(i+(window/2))];
      [label,score] = predict(BaggedTree150_4.ClassificationEnsemble, fA);
-     
+     count150=count150+1;
    end
+   
+   Conf = score(label)/sum(score);
+   if(Conf < 0.6)
+       currentA = currentA(1:90);
+       currentG = currentG(1:90);
+       fA = features(currentA, currentG);
+       thisTime = [time(i) time(i+90)];
+     [label,score] = predict(BaggedTree90_4.ClassificationEnsemble, fA);
+     count90 = count90 + 1;
+   end
+   
+   
    
    maybe = 'transition';
    for k=1:size(GR,1)

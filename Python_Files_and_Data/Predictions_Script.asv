@@ -76,26 +76,38 @@ for i=1:30:size(magAccel,1)-window
    
         
    
-   [label,score] = predict(BaggedTree150_4.ClassificationEnsemble,fv);
+   [label,score] = predict(BaggedTree300_4.ClassificationEnsemble,fv);
    
    
  %  for d = 1: length(score)
 %        if(d ~= label)
 %            temp = abs((score(label) - score(d))/((score(label)+score(d))/2)) * 100;
-   Conf = score(label)/sum(score);
+   Conf300 = score(label)/sum(score);
      
 %        end
  %  end
    
    
-%    if(conf < 40)
-%        currentA = currentA(1:window/2);
-%        currentG = currentG(1:window/2);
-%        fA = features(currentA, currentG);
-%        thisTime = [time(i) time(i+(window/2))];
-%      [label,score] = predict(BaggedTree5.ClassificationEnsemble, fA);
-%      
-%    end
+   if(Conf < 0.6)
+       currentA150 = currentA(1:window/2);
+       currentG150 = currentG(1:window/2);
+       fA = features(currentA150, currentG150);
+       thisTime = [time(i) time(i+(window/2))];
+     [label,score] = predict(BaggedTree150_4.ClassificationEnsemble, fA);
+     
+   end
+   
+   Conf150 = score(label)/sum(score);
+   if(Conf < 0.6)
+       currentA = currentA(1:90);
+       currentG = currentG(1:90);
+       fA = features(currentA, currentG);
+       thisTime = [time(i) time(i+(window/2))];
+     [label,score] = predict(BaggedTree90_4.ClassificationEnsemble, fA);
+     
+   end
+   
+   Conf90
    
    maybe = 'transition';
    for k=1:size(GR,1)
@@ -105,13 +117,13 @@ for i=1:30:size(magAccel,1)-window
        
    end
    
-   if(Conf < 0.6)
-       Plabel = activities(4);
-   elseif(score(label) < 0.3)
-       Plabel = activities(4);
-   else
+%    if(Conf < 0.6)
+%        Plabel = activities(4);
+%    elseif(score(label) < 0.3)
+%        Plabel = activities(4);
+%    else
        Plabel = activities(label);
-   end
+%    end
    
    
    
@@ -134,9 +146,9 @@ end
 outFile = strcat('predictions_', inFile);
 outPredictedPattern = char(fullfile(wFolder, outFolder, outFile )); % Change to whatever pattern you need.
 GTfile = strcat('GT_', inFile);
-grFilePattern = char(fullfile(wFolder,GTfile));
+grFilePattern = char(fullfile(wFolder,outFolder,GTfile));
 PvsGTfile = strcat('PvsGT_', inFile);
-PvsGRPattern = char(fullfile(wFolder, PvsGTfile));
+PvsGRPattern = char(fullfile(wFolder,outFolder, PvsGTfile));
 cell2csv(outPredictedPattern,predicted);
 cell2csv(grFilePattern,GTruth);
 cell2csv(PvsGRPattern,PvsGR);

@@ -7,7 +7,7 @@ rawFolder = 'raw';
 PvsGTfile = strcat('300_150_4PvsGT_', inFile);
 PvsGRPattern = char(fullfile(wFolder, procFolder, PvsGTfile));
 
-PvsGR = readtable(PvsGRPattern);
+%PvsGR = readtable(PvsGRPattern);
 
 swimTruePos=0;
 swimFalsePos=0;
@@ -22,7 +22,8 @@ tranTruePos=0;
 tranFalsePos=0;
 tranTrueNeg=0;
 overallAcc = 0;
-
+group = PvsGR(:,1);
+grouphat = PvsGR(:,2);
 NumRows = size(PvsGR,1);
 NumCorrect = 0;
 for i=1:NumRows
@@ -31,4 +32,9 @@ for i=1:NumRows
     end
 end
 
+overallAcc = NumCorrect / NumRows;
+disp(overallAcc);
+[CM, order] = confusionmat(group,grouphat,'Order',{'transition', 'bike', 'run', 'swim'});
+disp(CM);
+plotConfMat(CM, order);
 

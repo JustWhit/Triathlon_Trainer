@@ -1,13 +1,13 @@
 format long;
 inFile = 'MattTri_triathlon.csv';
 workFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
-procFolder = 'processed';
+procFolder = 'processed\200_TrainingSet\PredVSGT';
 rawFolder = 'raw';
 
-PvsGTfile = strcat('PvsGT_', inFile);
-PvsGRPattern = char(fullfile(wFolder, PvsGTfile));
+PvsGTfile = strcat('300_150_4PvsGT_', inFile);
+PvsGRPattern = char(fullfile(wFolder, procFolder, PvsGTfile));
 
-PvsGR = readtable
+%PvsGR = readtable(PvsGRPattern);
 
 swimTruePos=0;
 swimFalsePos=0;
@@ -22,8 +22,18 @@ tranTruePos=0;
 tranFalsePos=0;
 tranTrueNeg=0;
 overallAcc = 0;
+group = PvsGR{,1};
+grouphat = PvsGR{:,2};
+NumRows = size(PvsGR,1);
+NumCorrect = 0;
+for i=1:NumRows
+    if(strcmp(PvsGR{i,1},PvsGR{i,2}))
+        NumCorrect = NumCorrect + 1;
+    end
+end
 
-NumRows = size(
-for i=1:
-
+overallAcc = NumCorrect / NumRows;
+disp(overallAcc);
+[CM, order] = confusionmat(PvsGR{:,1},PvsGR{:,2},'Order',{'transition', 'bike', 'run', 'swim'});
+disp(CM);
 
