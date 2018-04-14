@@ -1,3 +1,9 @@
+<<<<<<< HEAD:Python_Files_and_Data/processed/200_TrainingSet/Activity_Definitions/Activity_Definitions_300_150_4predictions_MattTri_triathlon.csv
 swim,174.6377,730.1037
 bike,816.9664,3129.7855
 run,3216.6166,4900.8263
+=======
+swim,174.6377,730.1037
+bike,794.3456,3129.7855
+run,3216.6166,4900.8263
+>>>>>>> a61142d40cec6de3458eee4e06061d10a4a2fe99:Python_Files_and_Data/Activity_Definitions_300_150_4predictions_MattTri_triathlon.csv
