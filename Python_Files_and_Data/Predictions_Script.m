@@ -137,9 +137,9 @@ GTfile = strcat('GT_', inFile);
 grFilePattern = char(fullfile(wFolder,outFolder,GTfile));
 PvsGTfile = strcat('PvsGT_', inFile);
 PvsGRPattern = char(fullfile(wFolder,outFolder, PvsGTfile));
-csvwrite(outPredictedPattern,predicted);
-csvwrite(grFilePattern,GTruth);
-csvwrite(PvsGRPattern,PvsGR);
+cell2csv(outPredictedPattern,predicted);
+cell2csv(grFilePattern,GTruth);
+cell2csv(PvsGRPattern,PvsGR);
 
  function X = features(currentA,currentG)
     [apks,alocs] = findpeaks(currentA,'MinPeakProminence',1);
