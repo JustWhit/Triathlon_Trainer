@@ -98,26 +98,57 @@ fileregex = strcat('*','.csv');
 %   g = [zeros(length(bikeD),1); ones(length(runD),1); 2*ones(length(swimD),1)];
  
   
-x=1:6;
-y = [mean(bikestart(:,1)) mean(bikestop(:,1)) mean(runstart(:,1)) mean(runstop(:,1)) mean(swimstart(:,1)) mean(swimstop(:,1))];
-std_dev = [std(bikestart(:,1)) std(bikestop(:,1)) std(runstart(:,1)) std(runstop(:,1)) std(swimstart(:,1)) std(swimstop(:,1))];
+
+y = [mean(bikestart(:,1)) mean(bikestop(:,1)); mean(runstart(:,1)) mean(runstop(:,1)); mean(swimstart(:,1)) mean(swimstop(:,1))];
+b = [std(bikestart(:,1)) std(bikestop(:,1)); std(runstart(:,1)) std(runstop(:,1)); std(swimstart(:,1)) std(swimstop(:,1))];
 
 figure;
 hold on;
-bar(x,y)
-errorbar(y,std_dev ,'.')
 
-labels = {'Bike Start' 'Bike Stop' 'Run Start' 'Run Stop' 'Swim Start' 'Swim Stop'};
-XTick= 1:6;
+ctrs = 1:3;
+data = y;
+hBar = bar(ctrs,data);
+for k1 = 1:3
+    ctr(k1,:) = bsxfun(@plus, hBar(1).XData, [hBar(k1).XOffset]');
+    ydt(k1,:) = hBar(k1).YData;
+end
+
+errorbar(ctr, ydt, b, '.r')
+
+labels = {'Bike' 'Run' 'Swim'};
+XTick= 1:3;
 set(gca, 'XTick',XTick);
 set(gca, 'XTickLabel', labels);
+
+% errorbar(y,std_dev ,'.')
   
-%boxplot(x,g,'Labels',activities);%,'Whisker',1
+% boxplot(x,g,'Labels',activities);%,'Whisker',1
    
 % outfile = char(fullfile(Folder, 'Total_Delay.csv'));
 % %x = cell2mat(x);
 % dlm(outfile, x);
 
+% trace1 = struct(...
+%   'x', { {'Bike' 'Run' 'Swim'} }, ...
+%   'y', [mean(bikestart(:,1)),mean(runstart(:,1)),mean(swimstart(:,1))], ...
+%   'name', 'START', ...
+%   'error_y', struct(...
+%     'type', 'data', ...
+%     'array',[std(bikestart(:,1)),std(runstart(:,1)),std(swimstart(:,1))] , ...
+%     'visible', true), ...
+%   'type', 'bar');
+% trace2 = struct(...
+%   'x', { {'Bike' 'Run' 'Swim'} }, ...
+%   'y', [mean(bikestop(:,1)),mean(runstop(:,1)),mean(swimstop(:,1))], ...
+%   'name', 'STOP', ...
+%   'error_y', struct(...
+%     'type', 'data', ...
+%     'array', [std(bikestop(:,1)),std(runstop(:,1)),std(swimstop(:,1))], ...
+%     'visible', true), ...
+%   'type', 'bar');
+% data = {trace1, trace2};
+% layout = struct('barmode', 'group');
+% barplot(data, struct('layout', layout, 'filename', 'error-bar-bar', 'fileopt', 'overwrite'));
 
 
 
