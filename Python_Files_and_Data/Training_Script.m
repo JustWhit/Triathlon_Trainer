@@ -71,7 +71,7 @@ for x = 1: length(activities)
             magGyro = sqrt(sgx.^2 + sgy.^2 + sgz.^2);
             %magGyro = (magGyro - mean(magGyro)) ./ std(magGyro);
             
-            window=150;
+            window=300;
             for i=1:30:size(magAccel,1)-window
                currentA = magAccel(i:i+window );
                currentG = magGyro(i:i+window);
@@ -143,6 +143,6 @@ function X = features(x,currentA,currentG,sax,say)
    GE = entropy(currentG);
    AE = entropy(currentA);
 
-   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG or GE AE]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
+   X = [x meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA maxPSDA maxPSDG or]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA stdPAmpA meanPAmpA rmsAmpA GE AE
    X(isnan(X))=0;
  end
