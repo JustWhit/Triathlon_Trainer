@@ -9,23 +9,11 @@ import codecs
 import matplotlib.pyplot as plt
 import sys
 import re
-from scipy.stats import skew, kurtosis
-from scipy.signal import savgol_filter as savgol
 
 p=re.compile(r'\d+\.\d+')
 
-def smoothData(C):
-    Rheaders=['time','Ax','Ay','Az','Gx','Gy','Gz']
-    df = pd.DataFrame(C,columns=Rheaders)
-    for column in df.columns[1:]:
-        smoothed = savgol(x=df[column],mode='interp', window_length=15,polyorder=1)
-        df[column] = smoothed;
-    
-    return df.values.tolist()
-
 def getGroundTruth(P_list, Activity_file):
-    A_name=os.path.basename(Activity_file).split('_')[0]
-    print(A_name)
+    A_name=Activity_file.split('_')[0]
     filename=A_name.rstrip() + '_gr.csv'
     with open(filename, 'r') as infile:
         read=csv.reader(infile)
@@ -33,8 +21,7 @@ def getGroundTruth(P_list, Activity_file):
 
     G_list=[]
     for item in P_list:
-##        x=[float(i) for i in p.findall(str(item))]
-        x=[float(item[0]),float(item[1])]
+        x=[float(i) for i in p.findall(str(item))]
         maybe='transition'
         for row in gr_list:
             if x[0] > float(row[1]) and x[1] < float(row[2]):
@@ -53,7 +40,7 @@ def adjustTime(A_list):
     return A_list
 
 
-def plotResults(E_list, A_list,gr_list, title):
+def plotResults(E_list, A_list,gr_list, Score, title):
     #Activity=pd.DataFrame(A_list, columns=headers)
     for row in gr_list:
         print(row)
@@ -99,13 +86,12 @@ def plotResults(E_list, A_list,gr_list, title):
     for i in gr_list:
         plt.axvline(float(i[1]), color='red', linestyle='dashed')
         plt.axvline(float(i[2]), color='red', linestyle='dashed')
-    plt.text(xmax,ymax, 'Det Acc:' +str(avg), va='top', ha='right', fontsize=10)
+    plt.text(xmax,ymax,'SVM Acc: '+str(Score)+'\nDet Acc:' +str(avg), va='top', ha='right', fontsize=10)
     plt.show()
 
 def Process_Features(l, n):
     Rheaders=['time','Ax','Ay','Az','Gx','Gy','Gz']
     # For item i in a range that is a length of l,
-    
     l_len=len(l)-n
     for i in range(0, (l_len),30):##range(0, len(l), n)
         progress= float(i)/l_len *100
@@ -124,13 +110,11 @@ def Process_Features(l, n):
             RawChunk[col]=RawChunk[col].astype(float)
         #extract features
         row.extend(getRMS(RawChunk))
-        #row.extend(getMean(RawChunk))
+        row.extend(getMean(RawChunk))
         row.extend(getStanDev(RawChunk))
-        #row.extend(getMedian(RawChunk))
+        row.extend(getMedian(RawChunk))
         #row.extend(getMode(RawChunk))
         row.extend(getAvgPeakDistAmp(RawChunk))
-        #row.extend(getSkewness(RawChunk))
-        #row.extend(getKurtosis(RawChunk))
         yield row
 
 def getRMS(df):
@@ -170,25 +154,6 @@ def getMode(df):
         row.append(mode)
     return row
 
-def getSkewness(df):
-    row=[]
-    for column in df:
-        sk=skew(df[column])
-        row.append(sk)
-    return row
-
-def getKurtosis(df):
-    row=[]
-    for column in df:
-        kt=kurtosis(df[column])
-        row.append(kt)
-    return row
-
-def getMagnitude(df):
-    row=[]
-    for column in df:
-        mag=(sum(i**2 for i in column))**(0.5)
-
 def getAvgPeakDistAmp(df):
     row=[]
     for column in df:
@@ -215,15 +180,9 @@ def getAvgPeakDistAmp(df):
             stdAmp=stat.stdev(Amp)
         else:
             stdAmp=-1
-        row.extend([stdDist,avgAmp,stdAmp])##avgDist  removed from result
+        row.extend([avgDist,stdDist,avgAmp,stdAmp])
         
     return row
-
-
-
-
-
-    
 
 def getTrainingData(path):
     T_list=[]
@@ -238,8 +197,8 @@ def getTrainingData(path):
                 count=len(T_list)-len(Actual)
                 for i in range(count):
                     Actual.append(classification)
-##    for row in T_list:
-##        del row[0]
+    for row in T_list:
+        del row[0]
     
     with open('./test.csv', 'w') as testfile:
         test_list=list(zip(Actual,T_list))
@@ -264,162 +223,107 @@ def Process_Activity(R_list):
     Ccounter=0 #current counter
     Tcounter=0 #transition counter
     Ncounter=0 #possible next counter
-    lastseen=0 #how long since possible next was last seen
     Bcounter=0 #stepback if next erroneous
     possibleN='' #possible next activity
-    
 
     for row in R_list:
         if first == 'NA':
-            
             if row[0] in activities:
-                if Ncounter>75 and possibleN==row[0]:
+                if Ncounter>3 and possibleN==row[0]:
                     first=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
-                    Tcounter = 0
-                    lastseen = 0
                     
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
-                    lastseen = 0
-                elif lastseen < 6:
-                    Ncounter = Ncounter + 0.5
-                    lastseen = lastseen + 1
                 else:
                     firstStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
-                    Tcounter = Tcounter + Ccounter
-                    lastseen = 0
-
-                    
-            else:
-                Tcounter = Tcounter + 1
-                Ccounter = 0
-                lastseen = lastseen + 1
-
-                
         elif second == 'NA':
-            
             if row[0] == first:
-                if Tcounter<30:
+                if Tcounter<10:
                     firstStop=row[2]
                     secondStart=0
                     Tcounter=1
-                elif Ccounter>75:
+                elif Ccounter>3:
                     firstStop=row[2]
                     secondStart=0
                     Tcounter=0                   
                 Ccounter = Ccounter+1
                 possibleN=''
                 Ncounter=0
-
-                
             elif row[0] in activities:
-                if Ncounter>75 and possibleN==row[0]:
+                if Ncounter>4 and possibleN==row[0]:
                     second=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
-                    lastseen = 0
                     
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
-                    lastseen = 0
-                elif lastseen < 6:
-                    Ncounter = Ncounter + 0.5
-                    lastseen = lastseen + 1
-                elif Tcounter>30 and row[0]!=first:
+                elif Tcounter>15 and row[0]!=first:
                     secondStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
-                    lastseen = 0
-                else:
-                    Tcounter = Tcounter + 1
-                    lastseen = lastseen + 1
-
-                    
             else:
                 Ccounter=0
                 Tcounter= Tcounter+1
-                lastseen = lastseen + 1
-                
-
-
-                
         elif third == 'NA':
-            
             if row[0] == second:
-                if Tcounter<30:
+                if Tcounter<10:
                     secondStop=row[2]
                     thirdStart=0
                     Tcounter=1
-                if Ccounter>75:
+                if Ccounter>3:
                     secondStop=row[2]
                     thirdStart=0
                     Tcounter=0
                 possibleN=''
                 Ncounter=0
                 Ccounter= Ccounter+1
-                
             elif row[0] == first and secondStop==0:
-                if Bcounter>30:
+                if Bcounter>4:
                     second='NA'
                     secondStart=0
                     Bcounter=0
                 else:
                     Bcounter=Bcounter+1
-                    
             elif row[0] in activities:
-                if Ncounter>30 and possibleN==row[0]:
+                if Ncounter>4 and possibleN==row[0]:
                     third=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
                     possibleN=''
-                    lastseen = 0
+                    print(second, secondStop)
+                    print(third, thirdStart)
                 elif possibleN==row[0]:
                     Ncounter=Ncounter+1
-                    lastseen = 0
-                elif lastseen < 6:
-                    Ncounter = Ncounter + 0.5
-                    lastseen = lastseen + 1
-                elif Tcounter>30 and row[0]!=second:
+                elif Tcounter>15 and row[0]!=second:
                     thirdStart=row[1]
                     possibleN=row[0]
                     Ncounter = 1
-                    lastseen = 0
-                else:
-                    Tcounter = Tcounter + 1
-                    lastseen = lastseen + 1
-                    
             else:
                 Ccounter=0
-                Tcounter= Tcounter+1
-                lastseen = lastseen + 1
-
-
-                
+                Tcounter= Tcounter+1               
                 
         elif row[0] == third:
-            if Tcounter<30:
+            if Tcounter<10:
                 thirdStop=row[2]
                 Tcounter=1
-            if Ccounter>75:
+            if Ccounter>8:
                 thirdStop=row[2]
                 Tcounter=0                   
             Ccounter= Ccounter+1
-            
         elif row[0] == second and thirdStop==0:
-            if Bcounter>30:
+            if Bcounter>4:
                 third='NA'
                 thirdStart=0
                 Ccounter=Bcounter
                 Bcounter=0
             else:
                 Bcounter=Bcounter+1
-                
         else:
             Ccounter=0
             Tcounter= Tcounter+1            
@@ -431,79 +335,8 @@ def Process_Activity(R_list):
     print(third, thirdStart)
     print(third, thirdStop)
     if thirdStop!=0:
-        return [[first, firstStart, firstStop],[second, secondStart, secondStop],[third, thirdStart, thirdStop]] 
+        return[[first, firstStart, firstStop],[second, secondStart, secondStop],[third, thirdStart, thirdStop]] 
     if secondStop!=0:
-        return [[first, firstStart, firstStop],[second, secondStart, secondStop]]
+        return[[first, firstStart, firstStop],[second, secondStart, secondStop]]
     
-    return [[first, firstStart, firstStop]]
-
-
-
-
-
-
-
-
-
-
-
-def newProcess_Activity(R_List):
-    
-    
-    firstStart=0
-    firstStop=0
-    secondStart=0
-    secondStop=0
-    thirdStart=0
-    thirdStop=0
-    first='NA'
-    second='NA'
-    third='NA'
-    activities=['run','bike','swim','transition']## add 'swim'
-    Ccounter=0 #current counter
-    Tcounter=0 #transition counter
-    Ncounter=0 #possible next counter
-    Bcounter=0 #stepback if next erroneous
-    possibleN='' #possible next activity
-
-    ##find the most occurrences for each activity
-    occurences = getOccurences(R_List)
-    
-    #print(occurences);
-        
-
-
-
-def getOccurences(R_List):
-
-    currentLabel=''
-    currentCount=0
-    startCurrent=0
-    stopCurrent=0
-    x=[]
-    for row in R_List:
-        if row[0] == currentLabel:
-            currentCount=currentCount + 1
-            stopCurrent = row[2]
-        else:
-            if currentLabel != '':
-                x.append([ currentCount, currentLabel, startCurrent, stopCurrent ])
-            startCurrent = row[1]
-            stopCurrent = row[2]
-            currentCount = 1
-            currentLabel = row[0]
-
-    return x
-
-
-
-
-
-
-
-
-
-
-
-
-    
+    return[[first, firstStart, firstStop]]
