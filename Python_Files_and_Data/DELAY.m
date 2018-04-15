@@ -9,7 +9,7 @@ traininSetFolder = 'processed\400_TrainingSet15APR';
 activityFolder = 'Activity_Definitions'
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_300_150_4_15fpredictions_', currentFile);
+DefFile = strcat('Activity_Definitions_300_4_11fpredictions_', currentFile);
 DefPattern = char(fullfile(wFolder,traininSetFolder,activityFolder, DefFile));
 
 C = strsplit(currentFile, '_');
@@ -50,7 +50,7 @@ cell2csv(outDELAYPattern,delay);
 
 %% delay graph
 
-Folder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed\400_TrainingSet\Delay';
+Folder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed\400_TrainingSet15APR\Delay';
 
 fileregex = strcat('*','.csv');
     filePattern = char(fullfile(Folder, fileregex)); % Change to whatever pattern you need.
@@ -94,8 +94,8 @@ fileregex = strcat('*','.csv');
    end
 
   
-  x=[bikeD; runD; swimD];
-  g = [zeros(length(bikeD),1); ones(length(runD),1); 2*ones(length(swimD),1)];
+%   x=[bikeD; runD; swimD];
+%   g = [zeros(length(bikeD),1); ones(length(runD),1); 2*ones(length(swimD),1)];
  
   
 x=1:6;
