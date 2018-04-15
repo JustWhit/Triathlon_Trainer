@@ -1,5 +1,5 @@
 format long;
- inFile = 'MattTri_triathlon.csv';
+%  inFile = 'MattTri_triathlon.csv';
 % inFile = 'justin_combo_brb.csv';
 % inFile = 'John_combo_rB.csv';
 % inFile = 'Matt_combo_bR.csv'; 
@@ -107,7 +107,7 @@ for i=1:30:size(magAccel,1)-window
    
         
    
-   [label,score] = predict(BaggedTree300_4_15f.ClassificationEnsemble,fv);
+   [label,score] = predict(BaggedTree300_4_11f.ClassificationEnsemble,fv);
    count300 = count300 + 1;
    
  %  for d = 1: length(score)
@@ -128,7 +128,7 @@ for i=1:30:size(magAccel,1)-window
        currentSay = say(1:window/2);
        fA = features(currentA, currentG,currentSax, currentSay);
        thisTime = [time(i) time(i+(window/2))];
-     [label,score] = predict(BaggedTree150_4_15f.ClassificationEnsemble, fA);
+     [label,score] = predict(BaggedTree150_4_11f.ClassificationEnsemble, fA);
      count150=count150+1;
    end
 %    
@@ -181,15 +181,15 @@ for i=1:30:size(magAccel,1)-window
    
 end
  
-% outFile = strcat('predictions_', inFile);
-% outPredictedPattern = char(fullfile(wFolder, outFolder, outFile )); % Change to whatever pattern you need.
-% GTfile = strcat('GT_', inFile);
-% grFilePattern = char(fullfile(wFolder,outFolder,GTfile));
-% PvsGTfile = strcat('PvsGT_', inFile);
-% PvsGRPattern = char(fullfile(wFolder,outFolder, PvsGTfile));
-% cell2csv(outPredictedPattern,predicted);
-% cell2csv(grFilePattern,GTruth);
-% cell2csv(PvsGRPattern,PvsGR);
+outFile = strcat('predictions_', inFile);
+outPredictedPattern = char(fullfile(wFolder, outFolder, outFile )); % Change to whatever pattern you need.
+GTfile = strcat('GT_', inFile);
+grFilePattern = char(fullfile(wFolder,outFolder,GTfile));
+PvsGTfile = strcat('PvsGT_', inFile);
+PvsGRPattern = char(fullfile(wFolder,outFolder, PvsGTfile));
+cell2csv(outPredictedPattern,predicted);
+cell2csv(grFilePattern,GTruth);
+cell2csv(PvsGRPattern,PvsGR);
 
  function X = features(currentA,currentG,sax,say)
     [apks,alocs] = findpeaks(currentA,'MinPeakProminence',1);
@@ -226,7 +226,7 @@ end
    GE = entropy(currentG);
    AE = entropy(currentA);
 
-   X = [meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA maxPSDA maxPSDG or GE AE]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
+   X = [meanPDistG stdPDistG stdPAmpG meanPAmpG rmsAmpG meanPDistA stdPDistA maxPSDA maxPSDG or]; % meanPDistA stdPDistA stdPAmpA meanPAmpA rmsAmpA
    X(isnan(X))=0;
  end
  

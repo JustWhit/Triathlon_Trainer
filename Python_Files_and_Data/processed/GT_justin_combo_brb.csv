@@ -523,6 +523,7 @@ bike
 transition
 transition
 transition
+bike
 transition
 transition
 transition
@@ -653,7 +654,6 @@ transition
 transition
 transition
 transition
-transition
 run
 run
 run
@@ -1208,7 +1208,7 @@ run
 transition
 transition
 transition
-transition
+run
 transition
 transition
 transition
