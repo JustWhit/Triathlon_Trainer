@@ -1,5 +1,5 @@
 format long;
-% inFile = 'MattTri_triathlon.csv';
+ inFile = 'MattTri_triathlon.csv';
 % inFile = 'justin_combo_brb.csv';
 % inFile = 'John_combo_rB.csv';
 % inFile = 'Matt_combo_bR.csv'; 
@@ -181,15 +181,15 @@ for i=1:30:size(magAccel,1)-window
    
 end
  
-outFile = strcat('predictions_', inFile);
-outPredictedPattern = char(fullfile(wFolder, outFolder, outFile )); % Change to whatever pattern you need.
-GTfile = strcat('GT_', inFile);
-grFilePattern = char(fullfile(wFolder,outFolder,GTfile));
-PvsGTfile = strcat('PvsGT_', inFile);
-PvsGRPattern = char(fullfile(wFolder,outFolder, PvsGTfile));
-cell2csv(outPredictedPattern,predicted);
-cell2csv(grFilePattern,GTruth);
-cell2csv(PvsGRPattern,PvsGR);
+% outFile = strcat('predictions_', inFile);
+% outPredictedPattern = char(fullfile(wFolder, outFolder, outFile )); % Change to whatever pattern you need.
+% GTfile = strcat('GT_', inFile);
+% grFilePattern = char(fullfile(wFolder,outFolder,GTfile));
+% PvsGTfile = strcat('PvsGT_', inFile);
+% PvsGRPattern = char(fullfile(wFolder,outFolder, PvsGTfile));
+% cell2csv(outPredictedPattern,predicted);
+% cell2csv(grFilePattern,GTruth);
+% cell2csv(PvsGRPattern,PvsGR);
 
  function X = features(currentA,currentG,sax,say)
     [apks,alocs] = findpeaks(currentA,'MinPeakProminence',1);
