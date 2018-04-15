@@ -5,11 +5,11 @@ format long;
 % currentFile = 'Matt_combo_bR.csv'; 
 % currentFile = 'Radlyn_combo_rb.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
-traininSetFolder = 'processed\900_TrainingSet';
+traininSetFolder = 'processed\400_TrainingSet15APR';
 activityFolder = 'Activity_Definitions'
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_300_4_ORpredictions_', currentFile);
+DefFile = strcat('Activity_Definitions_300_150_4_15fpredictions_', currentFile);
 DefPattern = char(fullfile(wFolder,traininSetFolder,activityFolder, DefFile));
 
 C = strsplit(currentFile, '_');
@@ -45,3 +45,84 @@ end
 outFile = strcat('DELAY_', currentFile);
 outDELAYPattern = char(fullfile(wFolder, traininSetFolder, outFile )); % Change to whatever pattern you need.
 cell2csv(outDELAYPattern,delay);
+
+
+
+%% delay graph
+
+Folder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data\processed\400_TrainingSet\Delay';
+
+fileregex = strcat('*','.csv');
+    filePattern = char(fullfile(Folder, fileregex)); % Change to whatever pattern you need.
+    theFiles = dir(filePattern);
+    theFiles = fliplr(theFiles);
+   bikestart=[];
+   bikestop=[];
+   runstart=[];
+   runstop=[];
+   swimstart=[];
+   swimstop=[];
+   bike=0;
+   run=0;
+   swim=0;
+    activities = {'bike', 'run', 'swim'};
+     
+   for k = 1 : length(theFiles)
+       thisfile=char(fullfile(theFiles(k).folder,theFiles(k).name));
+       disp(thisfile);
+       f = readtable(thisfile);
+       f=table2cell(f);
+       for i=1: size(f,1)
+          
+           if (strcmp(activities(1), f(i,1)))
+               bikestart = [bikestart; f{i,2}];
+               bikestop = [bikestop; f{i,3}];
+               bike = bike +1;
+           end
+           if (strcmp(activities(2), f(i,1)))
+               runstart = [runstart; f{i,2}];
+               runstop = [runstop; f{i,3}];
+               run = run+1;
+           end
+           if (strcmp(activities(3), f(i,1)))
+               swimstart = [swimstart; f{i,2}];
+               swimstop = [swimstop; f{i,3}];
+               swim = swim+1;
+           end
+                   
+       end
+   end
+
+  
+  x=[bikeD; runD; swimD];
+  g = [zeros(length(bikeD),1); ones(length(runD),1); 2*ones(length(swimD),1)];
+ 
+  
+x=1:3;
+y = [mean(bikestart(:,1)) mean(bikestop(:,1)) mean(runstart(:,1)) mean(runstop(:,1)) mean(swimstart(:,1)) mean(swimstop(:,1))];
+std_dev = [std(bikestart(:,1)) mean(bikestop(:,1)) mean(runstart(:,1)) mean(runstop(:,1)) mean(swimstart(:,1)) mean(swimstop(:,1))];
+
+figure;
+hold on;
+bar(x,y)
+errorbar(y,std_dev ,'.')
+
+
+XTick=1:3
+set(gca, 'XTick',XTick);
+set(gca, 'XTickLabel', activities);
+  
+%boxplot(x,g,'Labels',activities);%,'Whisker',1
+   
+% outfile = char(fullfile(Folder, 'Total_Delay.csv'));
+% %x = cell2mat(x);
+% dlm(outfile, x);
+
+
+
+
+
+
+
+
+
