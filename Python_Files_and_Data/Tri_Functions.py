@@ -273,7 +273,7 @@ def Process_Activity(R_list):
         if first == 'NA':
             
             if row[0] in activities:
-                if Ncounter>75 and possibleN==row[0]:
+                if Ncounter>60 and possibleN==row[0]:
                     first=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
@@ -308,7 +308,7 @@ def Process_Activity(R_list):
                     firstStop=row[2]
                     secondStart=0
                     Tcounter=1
-                elif Ccounter>75:
+                elif Ccounter>60:
                     firstStop=row[2]
                     secondStart=0
                     Tcounter=0                   
@@ -318,7 +318,7 @@ def Process_Activity(R_list):
 
                 
             elif row[0] in activities:
-                if Ncounter>75 and possibleN==row[0]:
+                if Ncounter>60 and possibleN==row[0]:
                     second=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
@@ -356,7 +356,7 @@ def Process_Activity(R_list):
                     secondStop=row[2]
                     thirdStart=0
                     Tcounter=1
-                if Ccounter>75:
+                if Ccounter>60:
                     secondStop=row[2]
                     thirdStart=0
                     Tcounter=0
@@ -365,7 +365,7 @@ def Process_Activity(R_list):
                 Ccounter= Ccounter+1
                 
             elif row[0] == first and secondStop==0:
-                if Bcounter>30:
+                if Bcounter>60:
                     second='NA'
                     secondStart=0
                     Bcounter=0
@@ -373,7 +373,7 @@ def Process_Activity(R_list):
                     Bcounter=Bcounter+1
                     
             elif row[0] in activities:
-                if Ncounter>30 and possibleN==row[0]:
+                if Ncounter>60 and possibleN==row[0]:
                     third=row[0]
                     Ccounter=Ncounter
                     Ncounter=0
@@ -406,13 +406,13 @@ def Process_Activity(R_list):
             if Tcounter<30:
                 thirdStop=row[2]
                 Tcounter=1
-            if Ccounter>75:
+            if Ccounter>60:
                 thirdStop=row[2]
                 Tcounter=0                   
             Ccounter= Ccounter+1
             
         elif row[0] == second and thirdStop==0:
-            if Bcounter>30:
+            if Bcounter>60:
                 third='NA'
                 thirdStart=0
                 Ccounter=Bcounter
