@@ -298,6 +298,7 @@ def Process_Activity(R_list):
             else:
                 Tcounter = Tcounter + 1
                 Ccounter = 0
+                Ncounter = 0
                 lastseen = lastseen + 1
 
                 
@@ -343,7 +344,8 @@ def Process_Activity(R_list):
                     
             else:
                 Ccounter=0
-                Tcounter= Tcounter+1
+                Ncounter = 0
+                Tcounter= Tcounter+1 
                 lastseen = lastseen + 1
                 
 
@@ -422,6 +424,7 @@ def Process_Activity(R_list):
                 
         else:
             Ccounter=0
+            Ncounter = 0
             Tcounter= Tcounter+1            
 
     print(first, firstStart)
