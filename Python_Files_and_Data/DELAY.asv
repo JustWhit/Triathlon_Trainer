@@ -6,7 +6,7 @@ format long;
 % currentFile = 'Radlyn_combo_rb.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
 traininSetFolder = 'processed\400_TrainingSet15APR';
-activityFolder = 'Activity_Definitions1'
+activityFolder = 'Activity_Definitions2'
 inFolder = 'raw';
 
 DefFile = strcat('Activity_Definitions_300_4_11fpredictions_', currentFile);
