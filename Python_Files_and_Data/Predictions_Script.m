@@ -121,7 +121,7 @@ for i=1:30:size(magAccel,1)-window
  %  end
    
    
-   if(Conf < 0.5)
+   if(Conf < 0.6)
        currentA = currentA(1:window/2);
        currentG = currentG(1:window/2);
        currentSax = sax(1:window/2);

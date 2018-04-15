@@ -1,15 +1,15 @@
 format long;
 % currentFile = 'MattTri_triathlon.csv';
-currentFile = 'justin_combo_brb.csv';
+% currentFile = 'justin_combo_brb.csv';
 % currentFile = 'John_combo_rB.csv';
 % currentFile = 'Matt_combo_bR.csv'; 
 % currentFile = 'Radlyn_combo_rb.csv';
 wFolder = 'Z:\GitRepositories\Triathlon_Trainer\Python_Files_and_Data';
-traininSetFolder = 'processed\200_TrainingSet';
+traininSetFolder = 'processed\900_TrainingSet';
 activityFolder = 'Activity_Definitions'
 inFolder = 'raw';
 
-DefFile = strcat('Activity_Definitions_300_4_ORpredictions_', currentFile);
+DefFile = strcat('Activity_Definitions_300_150_4_15fpredictions_', currentFile);
 DefPattern = char(fullfile(wFolder,traininSetFolder,activityFolder, DefFile));
 
 C = strsplit(currentFile, '_');

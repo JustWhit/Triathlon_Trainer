@@ -1,3 +1,22 @@
+300_150_4_15f_BaggedTrees
+	accuracy 91.71%
+		john	run		84.4778		-32.1421
+				bike	-17.8839	1.5768
+		justin	bike	130.2847	19.9043
+				run		3.658		2.4496
+				bike	-7.0951		3.8229
+		matt	bike	-2.3222		19.6807
+				run		16.2201		2.2866
+		matttri	swim	14.8074		3.4195
+				bike	-6.4077		61.2241
+				run		-12.5624	-2.1928
+		radlyn	run		1.8277		3.1523
+				bike	-27.1144	8.1671
+
+
+
+
+%%%%%200 DATA SET%%%%%%%
 300_150_90_4_BaggedTrees
 	accuracy 91.82%
 		matttri swim	12.9977		5.2293
