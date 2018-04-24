@@ -104,22 +104,31 @@ b = [std(bikestart(:,1)) std(bikestop(:,1)); std(runstart(:,1)) std(runstop(:,1)
 
 figure;
 hold on;
+box on;
 
-ctrs = 1:3;
-data = y;
-hBar = bar(ctrs,data);
-for k1 = 1:3
-    ctr(k1,:) = bsxfun(@plus, hBar(1).XData, [hBar(k1).XOffset]');
-    ydt(k1,:) = hBar(k1).YData;
-end
 
-errorbar(ctr, ydt, b, '.r')
+x = 1:3;
+ bar(x,y);
 
+%barwitherr(b,y);
 labels = {'Bike' 'Run' 'Swim'};
 XTick= 1:3;
 set(gca, 'XTick',XTick);
 set(gca, 'XTickLabel', labels);
 
+
+
+
+
+% ctrs = 1:3;
+% data = y;
+% hBar = bar(ctrs,data);
+% for k1 = 1:3
+%     ctr(k1,:) = bsxfun(@plus, hBar(1).XData, [hBar(k1).XOffset]');
+%     ydt(k1,:) = hBar(k1).YData;
+% end
+% 
+% errorbar(ctr, ydt, b, '.r')
 % errorbar(y,std_dev ,'.')
   
 % boxplot(x,g,'Labels',activities);%,'Whisker',1

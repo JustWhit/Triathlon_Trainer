@@ -1,5 +1,5 @@
 format long;
-%  inFile = 'MattTri_triathlon.csv';
+ inFile = 'MattTri_triathlon.csv';
 % inFile = 'justin_combo_brb.csv';
 % inFile = 'John_combo_rB.csv';
 % inFile = 'Matt_combo_bR.csv'; 
